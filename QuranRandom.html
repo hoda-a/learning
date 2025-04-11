@@ -63,7 +63,9 @@
   <button onclick="playRandomVerse()">Play Random Verse</button>
   <div id="verseDisplay" style="text-align: center; margin-top: 20px;">
   <img id="verseImage" src="" alt="" style="max-width: 100%; border: 1px solid #ccc; padding: 10px; border-radius: 8px;" />
+  <button id="next-verse-button" onclick="playNextVerse()">Play Next Verse</button>
 </div>
+ </div>
 
 
   <script>
@@ -133,6 +135,14 @@
       ]
     };
 
+    const surahVerseCount = {};
+
+    for (const juz in juzData) {
+      juzData[juz].forEach(([id, name, count]) => {
+        surahVerseCount[id] = count;
+      });
+    }
+
     const container = document.getElementById('juzContainer');
 
     for (let juz in juzData) {
@@ -145,11 +155,11 @@
         </div>
         <div class="surahs">
           ${juzData[juz].map(
-            ([id, name, count]) =>
+            ([id, surahname, count]) =>
               `<div class="surah">
                 <label>
-                  <input type="checkbox" class="surah-checkbox" data-id="${id}" data-count="${count}">
-                  ${id} - ${name} (${count})
+                  <input type="checkbox" class="surah-checkbox" data-id="${id}" data-count="${count}" data-surahname="${surahname}">
+                  ${id} - ${surahname} (${count})
                 </label>
               </div>`
           ).join('')}
@@ -168,25 +178,95 @@
       surahCheckboxes.forEach(cb => cb.checked = juzCheckbox.checked);
     }
 
-    function playRandomVerse() {
-      const selected = Array.from(document.querySelectorAll('.surah-checkbox:checked'));
-      if (selected.length === 0) {
-        alert("Please select at least one surah.");
-        return;
-      }
+    let currentAudio = null; // Store the current playing audio
+    let lastPlayedSurah = null;
+    let lastPlayedVerse = null;
+    let lastPlayedSurahName = null;
 
-      const choice = selected[Math.floor(Math.random() * selected.length)];
-      const surah = choice.dataset.id;
-      const total = parseInt(choice.dataset.count);
-      const verse = Math.floor(Math.random() * total) + 1;
-      const mp3Url = `https://everyayah.com/data/Alafasy_64kbps/${surah.padStart(3, '0')}${verse.toString().padStart(3, '0')}.mp3`;
+
+
+    function playRandomVerse() {
+
+      // Stop the previous audio if it's still playing
+      if (currentAudio) {
+         currentAudio.pause();
+         currentAudio.currentTime = 0;
+      }
+ 
+
+     const selectedVerses = [];
+
+     const checkboxes = document.querySelectorAll('input[type="checkbox"].surah-checkbox:checked');
+     checkboxes.forEach((checkbox) => {
+       const surahId = parseInt(checkbox.dataset.id);
+       const surahName = checkbox.dataset.surahname;
+       const verseCount = parseInt(checkbox.dataset.count);
+    
+       // Exclude the last verse
+       for (let verse = 1; verse < verseCount; verse++) {
+         selectedVerses.push({ surah: surahId, surahName, verse });
+       }
+     });
+
+     if (selectedVerses.length === 0) {
+       alert("Please select at least one surah.");
+       return;
+     }
+
+      // Uniform random selection
+      const randomIndex = Math.floor(Math.random() * selectedVerses.length);
+      const { surah, surahName, verse } = selectedVerses[randomIndex];
+      // Save last played
+      lastPlayedSurah = surah;
+      lastPlayedVerse = verse;
+      lastPlayedSurahName = surahName;
+
+
+
+      const mp3Url = `https://everyayah.com/data/Alafasy_64kbps/${String(surah).padStart(3, '0')}${verse.toString().padStart(3, '0')}.mp3`;
       const imageUrl = `https://everyayah.com/data/quranpngs/${surah}_${verse}.png`;
       document.getElementById('verseImage').src = imageUrl;
-      document.getElementById('verseImage').alt = `Surah ${surah}, Verse ${verse}`;
-      const audio = new Audio(mp3Url);
-      audio.play();
-      console.log(`Playing Surah ${surah}, Verse ${verse}`);
+      currentAudio = new Audio(mp3Url);
+      currentAudio.play();
+      console.log(`Playing Surah ${lastPlayedSurahName} ${surah}, Verse ${verse}`);
+      document.getElementById("next-verse-button").textContent =
+      `▶️ Surah ${lastPlayedSurah} - ${lastPlayedSurahName} | ${lastPlayedVerse}`;
     }
+
+
+
+   function playNextVerse() {
+    if (lastPlayedSurah === null || lastPlayedVerse === null) {
+      alert("No verse played yet!");
+      return;
+    }
+
+    const totalVerses = surahVerseCount[lastPlayedSurah] + 1;
+    const nextVerse = lastPlayedVerse + 1;
+
+    if (nextVerse >= totalVerses) {
+      alert("You've reached the end of this surah.");
+      return;
+    }
+
+    const mp3Url = `https://everyayah.com/data/Alafasy_64kbps/${lastPlayedSurah
+      .toString()
+      .padStart(3, "0")}${nextVerse.toString().padStart(3, "0")}.mp3`;
+
+    if (currentAudio) {
+      currentAudio.pause();
+    }
+
+    currentAudio = new Audio(mp3Url);
+    currentAudio.play();
+
+    lastPlayedVerse = nextVerse;
+    const imageUrl = `https://everyayah.com/data/quranpngs/${lastPlayedSurah}_${lastPlayedVerse}.png`;
+    document.getElementById('verseImage').src = imageUrl;
+      
+    document.getElementById("next-verse-button").textContent =
+      `▶️ Surah ${lastPlayedSurah} - ${lastPlayedSurahName} | ${lastPlayedVerse}`;
+  }
   </script>
 </body>
 </html>
