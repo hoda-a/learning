@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quran Random Verse Player</title>
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New&display=swap" rel="stylesheet">
+  <style>
+    #verse-text {
+      font-family: 'Scheherazade New', serif;
+      font-size: 1.8em;
+      line-height: 2;
+      direction: rtl;
+    }
+  </style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .juz {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+    .juz-header {
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+    .surahs {
+      display: none;
+      padding-left: 20px;
+      margin-top: 5px;
+    }
+    .surah {
+      padding: 5px 0;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Random Quran Verse Player (Juz 28–30)</h1>
+  <div class="container" id="juzContainer"></div>
+  <button onclick="playRandomVerse()">Play Random Verse</button>
+  <div id="verseDisplay" style="text-align: center; margin-top: 20px;">
+    <!-- <img id="verseImage" src="" alt="" style="max-width: 100%; border: 1px solid #ccc; padding: 10px; border-radius: 8px;" /> -->
+    <div id="verse-text" style="margin-top: 20px; font-size: 1.2em; text-align: center;"></div>
+    <button id="next-verse-button" onclick="playNextVerse()">Play Next Verse</button>
+  </div>
+ </div>
+
+
+  <script>
+    const juzData = {
+      28: [
+        [58, "Al-Mujadila", 22],
+        [59, "Al-Hashr", 24],
+        [60, "Al-Mumtahanah", 13],
+        [61, "As-Saff", 14],
+        [62, "Al-Jumu'ah", 11],
+        [63, "Al-Munafiqun", 11],
+        [64, "At-Taghabun", 18],
+        [65, "At-Talaq", 12],
+        [66, "At-Tahrim", 12]
+      ],
+      29: [
+          [67, "Al-Mulk", 30],
+          [68, "Al-Qalam", 52],
+          [69, "Al-Haqqah", 52],
+          [70, "Al-Ma'arij", 44],
+          [71, "Nuh", 28],
+          [72, "Al-Jinn", 28],
+          [73, "Al-Muzzammil", 20],
+          [74, "Al-Muddathir", 56],
+          [75, "Al-Qiyamah", 40],
+          [76, "Al-Insan", 31],
+          [77, "Al-Mursalat", 50]
+        ],
+      30: [
+        [78, "An-Naba", 40],
+        [79, "An-Nazi'at", 46],
+        [80, "Abasa", 42],
+        [81, "At-Takwir", 29],
+        [82, "Al-Infitar", 19],
+        [83, "Al-Mutaffifin", 36],
+        [84, "Al-Inshiqaq", 25],
+        [85, "Al-Buruj", 22],
+        [86, "At-Tariq", 17],
+        [87, "Al-A'la", 19],
+        [88, "Al-Ghashiyah", 26],
+        [89, "Al-Fajr", 30],
+        [90, "Al-Balad", 20],
+        [91, "Ash-Shams", 15],
+        [92, "Al-Layl", 21],
+        [93, "Adh-Dhuha", 11],
+        [94, "Al-Inshirah", 8],
+        [95, "At-Tin", 8],
+        [96, "Al-Alaq", 19],
+        [97, "Al-Qadr", 5],
+        [98, "Al-Bayyina", 8],
+        [99, "Az-Zalzalah", 8],
+        [100, "Al-Adiyat", 11],
+        [101, "Al-Qariah", 11],
+        [102, "At-Takathur", 8],
+        [103, "Al-Asr", 3],
+        [104, "Al-Humazah", 9],
+        [105, "Al-Fil", 5],
+        [106, "Quraysh", 4],
+        [107, "Al-Ma'un", 7],
+        [108, "Al-Kawthar", 3],
+        [109, "Al-Kafirun", 6],
+        [110, "An-Nasr", 3],
+        [111, "Al-Masad", 5],
+        [112, "Al-Ikhlas", 4],
+        [113, "Al-Falaq", 5],
+        [114, "An-Nas", 6]
+      ]
+    };
+
+    const surahVerseCount = {};
+
+    for (const juz in juzData) {
+      juzData[juz].forEach(([id, name, count]) => {
+        surahVerseCount[id] = count;
+      });
+    }
+
+    const container = document.getElementById('juzContainer');
+
+    for (let juz in juzData) {
+      const div = document.createElement('div');
+      div.className = 'juz';
+      div.innerHTML = `
+        <div class="juz-header" onclick="toggleSurahs(this)">
+          <label><input type="checkbox" onchange="toggleAllSurahs(this)"> Juz ${juz}</label>
+          <span>▼</span>
+        </div>
+        <div class="surahs">
+          ${juzData[juz].map(
+            ([id, surahname, count]) =>
+              `<div class="surah">
+                <label>
+                  <input type="checkbox" class="surah-checkbox" data-id="${id}" data-count="${count}" data-surahname="${surahname}">
+                  ${id} - ${surahname} (${count})
+                </label>
+              </div>`
+          ).join('')}
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    function toggleSurahs(header) {
+      const surahDiv = header.nextElementSibling;
+      surahDiv.style.display = surahDiv.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleAllSurahs(juzCheckbox) {
+      const surahCheckboxes = juzCheckbox.closest('.juz').querySelectorAll('.surah input[type="checkbox"]');
+      surahCheckboxes.forEach(cb => cb.checked = juzCheckbox.checked);
+    }
+
+    let currentAudio = null; // Store the current playing audio
+    let lastPlayedSurah = null;
+    let lastPlayedVerse = null;
+    let lastPlayedSurahName = null;
+
+
+
+    function playRandomVerse() {
+
+      // Stop the previous audio if it's still playing
+      if (currentAudio) {
+         currentAudio.pause();
+         currentAudio.currentTime = 0;
+      }
+ 
+
+     const selectedVerses = [];
+
+     const checkboxes = document.querySelectorAll('input[type="checkbox"].surah-checkbox:checked');
+     checkboxes.forEach((checkbox) => {
+       const surahId = parseInt(checkbox.dataset.id);
+       const surahName = checkbox.dataset.surahname;
+       const verseCount = parseInt(checkbox.dataset.count);
+    
+       // Exclude the last verse
+       for (let verse = 1; verse < verseCount; verse++) {
+         selectedVerses.push({ surah: surahId, surahName, verse });
+       }
+     });
+
+     if (selectedVerses.length === 0) {
+       alert("Please select at least one surah.");
+       return;
+     }
+
+      // Uniform random selection
+      const randomIndex = Math.floor(Math.random() * selectedVerses.length);
+      const { surah, surahName, verse } = selectedVerses[randomIndex];
+      // Save last played
+      lastPlayedSurah = surah;
+      lastPlayedVerse = verse;
+      lastPlayedSurahName = surahName;
+      updateVerseText(lastPlayedSurah, lastPlayedVerse);
+
+
+
+      const mp3Url = `https://everyayah.com/data/Alafasy_64kbps/${String(surah).padStart(3, '0')}${verse.toString().padStart(3, '0')}.mp3`;
+      // const imageUrl = `https://everyayah.com/data/quranpngs/${surah}_${verse}.png`;
+      // document.getElementById('verseImage').src = imageUrl;
+      currentAudio = new Audio(mp3Url);
+      currentAudio.play();
+      console.log(`Playing Surah ${lastPlayedSurahName} ${surah}, Verse ${verse}`);
+      document.getElementById("next-verse-button").textContent =
+      `▶️ Surah ${lastPlayedSurah} - ${lastPlayedSurahName} | ${lastPlayedVerse}`;
+    }
+
+
+
+   function playNextVerse() {
+    if (lastPlayedSurah === null || lastPlayedVerse === null) {
+      alert("No verse played yet!");
+      return;
+    }
+
+    const totalVerses = surahVerseCount[lastPlayedSurah] + 1;
+    const nextVerse = lastPlayedVerse + 1;
+
+    if (nextVerse >= totalVerses) {
+      alert("You've reached the end of this surah.");
+      return;
+    }
+
+    const mp3Url = `https://everyayah.com/data/Alafasy_64kbps/${lastPlayedSurah
+      .toString()
+      .padStart(3, "0")}${nextVerse.toString().padStart(3, "0")}.mp3`;
+
+    if (currentAudio) {
+      currentAudio.pause();
+    }
+
+    currentAudio = new Audio(mp3Url);
+    currentAudio.play();
+
+    lastPlayedVerse = nextVerse;
+    // const imageUrl = `https://everyayah.com/data/quranpngs/${lastPlayedSurah}_${lastPlayedVerse}.png`;
+    // document.getElementById('verseImage').src = imageUrl;
+      
+    document.getElementById("next-verse-button").textContent =
+      `▶️ Surah ${lastPlayedSurah} - ${lastPlayedSurahName} | ${lastPlayedVerse}`;
+
+    updateVerseText(lastPlayedSurah, lastPlayedVerse);
+  }
+
+  function updateVerseText(surahId, verseNumber) {
+    const url = `https://api.alquran.cloud/v1/ayah/${surahId}:${verseNumber}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("verse-text").textContent = data.data.text;
+      })
+      .catch((error) => {
+        console.error("Error fetching verse text:", error);
+        document.getElementById("verse-text").textContent = "Could not load verse text.";
+      });
+  }
+  </script>
+</body>
+</html>
