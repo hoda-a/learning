@@ -1,4 +1,5 @@
 import { levels } from './data.js';
+import { COLLECTION_ITEMS } from './data.js';
 
 const els = {
   levelSelect: document.getElementById('levelSelect'),
@@ -31,22 +32,13 @@ const els = {
   starBar: document.getElementById('starBar'),
 };
 
-const SFX = { correct:'media/sounds/correct.mp3', wrong:'media/sounds/wrong.mp3', ding:'media/sounds/ding.mp3' };
+const SFX = { correct:'../media/sounds/correct.mp3', wrong:'../media/sounds/wrong.mp3', ding:'../media/sounds/ding.mp3' };
 const sfxAudio = new Audio();
 
 const THEMES = ['farm','city','forest','stadium','ocean','space','prehistoric', 'masjid','snowy'];
-const THEME_BG = t => `media/backgrounds/${t}.png`;
+const THEME_BG = t => `../media/backgrounds/${t}.png`;
 
-const COLLECTION_ITEMS = [
-  'media/stickers/m01.png','media/stickers/m02.png','media/stickers/m03.png','media/stickers/m04.png',
-  'media/stickers/d01.png','media/stickers/d02.png','media/stickers/d03.png','media/stickers/d04.png','media/stickers/d05.png',
-  'media/stickers/f01.png','media/stickers/f02.png','media/stickers/f03.png','media/stickers/f04.png','media/stickers/f05.png','media/stickers/f06.png','media/stickers/f07.png','media/stickers/f08.png','media/stickers/f09.png','media/stickers/f10.png','media/stickers/f11.png','media/stickers/f12.png','media/stickers/f13.png','media/stickers/f14.png','media/stickers/f15.png','media/stickers/f16.png','media/stickers/f17.png',
-  'media/stickers/s01.png','media/stickers/s02.png','media/stickers/s03.png','media/stickers/s04.png','media/stickers/s05.png','media/stickers/s06.png','media/stickers/s07.png',
-  'media/stickers/o01.png','media/stickers/o02.png','media/stickers/o03.png','media/stickers/o04.png','media/stickers/o05.png','media/stickers/o06.png','media/stickers/o07.png','media/stickers/o08.png',
-  'media/stickers/p01.png','media/stickers/p02.png','media/stickers/p03.png','media/stickers/p04.png','media/stickers/p05.png','media/stickers/p06.png','media/stickers/p07.png',
-  'media/stickers/u01.png','media/stickers/u02.png','media/stickers/u03.png','media/stickers/u04.png','media/stickers/u05.png','media/stickers/u06.png','media/stickers/u07.png',
-  'media/stickers/j01.png','media/stickers/j02.png','media/stickers/j03.png','media/stickers/j04.png','media/stickers/j05.png','media/stickers/j06.png','media/stickers/f07.png','media/stickers/j08.png','media/stickers/j09.png','media/stickers/j10.png','media/stickers/j11.png',
-];
+
 
 let state = {
   theme: 'garden',
@@ -277,10 +269,10 @@ function renderStars() {
   for (let i = 0; i < count; i++) {
     const img = document.createElement('img');
     if (i < state.stars) {
-      img.src = 'media/stickers/o07.png';  
+      img.src = '../media/stickers/o07.png';  
       img.alt = '*';
     } else {
-      img.src = 'media/stickers/c10.png';  
+      img.src = '../media/stickers/c10.png';  
       img.alt = '*';
     }
     els.starBar.appendChild(img);
