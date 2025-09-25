@@ -1,0 +1,278 @@
+:root {
+  --bg:#f7f8fb;
+  --card:#fff;
+  --ink:#0f172a;
+  --muted:#6b7280;
+  --accent:#2563eb;
+  --ok:#22c55e;
+  --bad:#ef4444;
+  --ring:#e5e7eb;
+}
+* { box-sizing:border-box }
+html,body { height:100% }
+body {
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  color:var(--ink);
+  background:var(--bg);
+}
+.app { max-width:1100px; margin:0 auto; padding:16px }
+
+.card {
+  background:var(--card);
+  border:1px solid var(--ring);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+
+.header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px }
+.header .title h1 { margin:0; font-size:22px }
+.header .sub { margin:4px 0 0; color:var(--muted); font-size:14px }
+.controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+
+select, .btn {
+  border:1px solid var(--ring);
+  background:var(--card);
+  color:var(--ink);
+  padding:10px 12px;
+  border-radius:12px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.btn {
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6em 1.2em;
+  margin: 0.2em;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn:hover { background: #2980b9; }
+.btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.toolbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+  gap: 0.5em;
+}
+
+.btn.primary { background:var(--accent); color:#fff; border-color:transparent }
+
+.main { display:grid; grid-template-columns:1fr; gap:16px }
+
+.info-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:12px }
+
+.badge {
+  background:#f1f5f9;
+  color:#334155;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+}
+.badge.timer { font-variant-numeric:tabular-nums; font-weight:700 }
+.badge.note { background:#eef2ff; color:#3730a3 }
+
+.question-media { display:flex; align-items:center; gap:10px; margin-bottom:10px }
+
+.prompt-image { width: 100%; max-width: 400px; margin: 0 auto 1rem; }
+.prompt-image img { width:100%; height:auto; object-fit:contain }
+
+.hidden { display:none !important }
+
+.options {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  max-width:400px;
+  margin:0 auto;
+}
+.option {
+  border: 3px solid var(--ring);   /* light gray default border */
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  transition: border-color .2s, transform .05s;
+  cursor: pointer;
+}
+
+.option img {
+  display:block;
+  width:100%;
+  height:120px; /* smaller answers */
+  object-fit:contain;
+  background:#fff;
+}
+.option.correct { border-color:var(--ok) }
+.option.wrong { border-color:var(--bad) }
+.option:active { transform:scale(.99) }
+
+.footer-row { display:flex; justify-content:center; align-items:center; margin-top:8px }
+
+.feedback {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0.5em;
+  min-height: 1.5em;
+}
+.feedback.correct { color: green; }
+.feedback.wrong { color: red; }
+
+/* Stickers */
+.sticker-wrap {
+  display:grid;
+  grid-template-columns: 1fr 320px;
+  gap:16px;
+}
+.sticker-canvas {
+  position:relative;
+  min-height:420px;
+  border-radius:16px;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  border:1px dashed var(--ring);
+}
+.dropzone { position:absolute; inset:0 }
+.sticker-side { display:flex; flex-direction:column; gap:8px }
+.sticker-items {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  max-height:450px;
+  overflow:auto;
+}
+.sticker-items img {
+  width:100%;
+  height:120px;
+  object-fit:contain;
+  background:#fff;
+  border:1px solid var(--ring);
+  border-radius:12px;
+  padding:6px;
+  cursor:grab;
+}
+
+.draggable {
+  position: absolute;
+  user-select: none;
+  touch-action: none;
+  border: 2px dashed transparent;
+}
+.draggable.selected { border: 2px dashed #2563eb; }
+.draggable img { display:block; width:100%; height:100%; object-fit:contain; }
+
+.resize-handle {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  background: #2563eb;
+  cursor: se-resize;
+  border-radius: 3px;
+}
+.draggable.selected .resize-handle { display: block; }
+
+/* Star bar */
+#starBar {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 0 6px 6px 0;
+  z-index: 1000;
+}
+#starBar img { width: 24px; height: 24px; object-fit: contain; }
+
+/* Background prompt */
+#bgPrompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,0.8);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal.hidden { display: none; }
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+}
+.bg-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.bg-choices button img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+@media (min-width:900px){
+  .options{ grid-template-columns:repeat(4,minmax(0,1fr)) }
+  .option img{ height:100px }
+}
+
+/* Make prompt-image a positioned container */
+.prompt-image {
+  position: relative; /* NEW */
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 1rem;
+}
+
+.prompt-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Overlay play button in top-left corner */
+.play-overlay {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 14px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.play-overlay:hover {
+  background: rgba(0,0,0,0.8);
+}

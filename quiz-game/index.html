@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arabic Reading Game</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <main class="main">
+      <div class="toolbar">
+        <button id="toggleBtn" class="btn">Prize Area</button>
+        <button id="resetBtn" class="btn">Start</button>
+      </div>
+
+      <div id="starBar"></div>
+
+<section id="quizCard" class="card">
+  <div class="info-row">
+    <span class="badge note" id="hint">Listen and tap the match</span>
+    <span class="badge timer" id="timer">30</span>
+  </div>
+
+<div class="question">
+  <div class="question-media">
+    <div id="promptImageWrap" class="prompt-image hidden">
+      <img id="promptImage" alt="prompt" />
+      <button id="playBtn" class="btn play-overlay"> Play</button>
+    </div>
+    <audio id="qAudio" preload="auto"></audio>
+  </div>
+</div>
+
+
+    <div id="options" class="options"></div>
+
+    <div class="footer-row">
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+
+      <section id="stickerCard" class="card hidden">
+        <div class="info-row">
+          <span class="badge">🎁 Prize Area</span>
+          <span class="badge" id="stickerNote">Earned items appear here after each passed round.</span>
+        </div>
+        <div class="sticker-wrap">
+          <div id="stickerCanvas" class="sticker-canvas">
+            <div id="dropzone" class="dropzone"></div>
+            <div id="bgPrompt" class="bg-prompt">Tap to select background</div>
+
+          </div>
+          <div class="sticker-side">
+            <div class="side-head">
+              <strong>Drag items onto the canvas</strong>
+            </div>
+            <div id="stickerItems" class="sticker-items"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  
+  <div id="bgModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Select a background</h3>
+    <div id="bgChoices" class="bg-choices"></div>
+  </div>
+  </div>
+
+
+  <script type="module" src="data.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
