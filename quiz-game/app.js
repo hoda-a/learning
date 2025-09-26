@@ -368,12 +368,15 @@ function initStickerModal() {
       return;
     }
     modal.classList.remove('hidden');
-    document.querySelector('.sticker-toolbar').classList.add('hidden'); 
+    document.getElementById('stickertoolbar').classList.add('hidden'); 
     }
   )
 
   // Close
-  closeBtn.addEventListener('click', () => { modal.classList.add('hidden'); document.querySelector('.sticker-toolbar').classList.remove('hidden');});
+  closeBtn.addEventListener('click', () => {
+     modal.classList.add('hidden');
+     document.getElementById('stickertoolbar').classList.remove('hidden');
+  });
 
   // Select sticker
   choices.addEventListener('click', (e) => {
@@ -388,6 +391,7 @@ function initStickerModal() {
       renderStars();
     }
     modal.classList.add('hidden');
+    document.getElementById('stickertoolbar').classList.remove('hidden');
   });
 }
 
