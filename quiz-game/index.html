@@ -11,7 +11,7 @@
 
     <main class="main">
       <div class="toolbar">
-        <button id="toggleBtn" class="btn">Prize Area</button>
+        <button id="toggleBtn" class="btn">Sticker Area</button>
         <button id="resetBtn" class="btn">Start</button>
       </div>
 
@@ -27,7 +27,13 @@
   <div class="question-media">
     <div id="promptImageWrap" class="prompt-image hidden">
       <img id="promptImage" alt="prompt" />
-      <button id="playBtn" class="btn play-overlay"> Play</button>
+      <button id="playBtn" class="btn play-btn" aria-label="Play sound">
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+         <path d="M4 9v6h4l5 5V4L8 9H4z"/>
+         <path d="M14.5 12c0-1.77 1.02-3.29 2.5-4.03v8.06c-1.48-.74-2.5-2.26-2.5-4.03zm2.5-7.03v2.06c2.89 1.12 5 3.94 5 7s-2.11 5.88-5 7v2.06c4.01-1.25 7-5.01 7-9.06s-2.99-7.81-7-9.06z"/>
+       </svg>
+</button>
+
     </div>
     <audio id="qAudio" preload="auto"></audio>
   </div>
@@ -43,25 +49,29 @@
 </section>
 
 
-      <section id="stickerCard" class="card hidden">
-        <div class="info-row">
-          <span class="badge">🎁 Prize Area</span>
-          <span class="badge" id="stickerNote">Earned items appear here after each passed round.</span>
-        </div>
-        <div class="sticker-wrap">
-          <div id="stickerCanvas" class="sticker-canvas">
-            <div id="dropzone" class="dropzone"></div>
-            <div id="bgPrompt" class="bg-prompt">Tap to select background</div>
+<section id="stickerCard" class="card hidden">
+  <div class="info-row">
+    <span class="badge">?? Sticker Area</span>
+    <span class="badge" id="stickerNote">Earned items appear here</span>
+  </div>
+  <div class="sticker-wrap">
+    <div id="stickerCanvas" class="sticker-canvas">
+      <div id="dropzone" class="dropzone"></div>
+      <div id="bgPrompt" class="bg-prompt">Tap to select background</div>
+    </div>
+  </div>
+  <div class="toolbar">
+    <button id="openStickerModal" class="btn">? Add Sticker</button>
+  </div>
+</section>
+<div id="stickerModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Select a sticker</h3>
+    <div id="stickerChoices" class="sticker-choices"></div>
+    <button id="closeStickerModal" class="btn">Close</button>
+  </div>
+</div>
 
-          </div>
-          <div class="sticker-side">
-            <div class="side-head">
-              <strong>Drag items onto the canvas</strong>
-            </div>
-            <div id="stickerItems" class="sticker-items"></div>
-          </div>
-        </div>
-      </section>
     </main>
   </div>
 

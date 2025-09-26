@@ -28,7 +28,6 @@ const els = {
 
   stickerCanvas: document.getElementById('stickerCanvas'),
   dropzone: document.getElementById('dropzone'),
-  stickerItems: document.getElementById('stickerItems'),
   starBar: document.getElementById('starBar'),
 };
 
@@ -52,8 +51,6 @@ let state = {
 };
 
 function init() {
-  // build modal content
-  // build modal content
   els.bgChoices.innerHTML = THEMES
   .map(t => `<button data-theme="${t}"><img src="${THEME_BG(t)}" alt="${t}"></button>`)
   .join('');
@@ -73,7 +70,6 @@ function init() {
 
 
 
-  renderCollectionItems();
 
   els.resetBtn.addEventListener("click", () => {
     els.resetBtn.textContent = "Restart"
@@ -96,6 +92,7 @@ function init() {
   els.playBtn.addEventListener('click', () => { els.qAudio.currentTime = 0; els.qAudio.play(); });
   enableDropzone();
   renderStars();
+  initStickerModal();
 
 }
 document.addEventListener('DOMContentLoaded', init);
@@ -114,11 +111,15 @@ function showView(which) {
   if (onSticker) {
     // Pause game flow
     clearInterval(state.timerId);
+    state.timerId = null;
   } else {
-    // Resume or restart timer when coming back
-    startTimer();
+    // Resume timer if it was paused
+    if (!state.timerId && state.timeLeft > 0) {
+      startTimer(true);  // pass true to indicate resume
+    }
   }
 }
+
 
 
 function startLevel() {
@@ -149,14 +150,32 @@ function startRound(){
 }
 
 
-function startTimer(){
-  clearInterval(state.timerId); state.timeLeft=30; els.timer.textContent=String(state.timeLeft);
-  state.timerId=setInterval(()=>{ state.timeLeft--; els.timer.textContent=String(state.timeLeft); if(state.timeLeft<=0){ clearInterval(state.timerId); handleTimeout(); } },1000);
+function startTimer(resume = false) {
+  clearInterval(state.timerId);
+
+  if (!resume) {
+    state.timeLeft = 30; // only reset if not resuming
+  }
+
+  els.timer.textContent = String(state.timeLeft);
+
+  state.timerId = setInterval(() => {
+    state.timeLeft--;
+    els.timer.textContent = String(state.timeLeft);
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timerId);
+      state.timerId = null;
+      handleTimeout();
+    }
+  }, 1000);
 }
+
+
+
 function handleTimeout(){
   lockQuestion(); 
   sfx('wrong', () => {
-      setTimeout(() => nextQuestion(), 1000); // 1s after sound
+      setTimeout(() => nextQuestion(), 800); // 1s after sound
   });
 
   markOption(null); 
@@ -247,14 +266,14 @@ function onOptionClick(e) {
     els.feedback.className = 'feedback correct';
     awardStickers(1);
     sfx('correct', () => {
-      setTimeout(() => nextQuestion(), 1000); // 1s after sound
+      setTimeout(() => nextQuestion(), 600); // 1s after sound
     });
   } else {
     markOption(chosen, false);
     els.feedback.textContent = 'Incorrect.';
     els.feedback.className = 'feedback wrong';
     sfx('wrong', () => {
-      setTimeout(() => nextQuestion(), 1000); // 1s after sound
+      setTimeout(() => nextQuestion(), 900); // 1s after sound
     });
   }
 }
@@ -317,10 +336,39 @@ function sfx(name, callback) {
   }
 }
 
-function renderCollectionItems(){
-  els.stickerItems.innerHTML = COLLECTION_ITEMS.map(src=>`<img draggable="true" data-src="${src}" src="${src}" alt="item">`).join('');
-  els.stickerItems.addEventListener('dragstart', (e)=>{ const img=e.target.closest('img[data-src]'); if(!img) return; e.dataTransfer.setData('text/plain', img.dataset.src); });
+function initStickerModal() {
+  const modal = document.getElementById('stickerModal');
+  const choices = document.getElementById('stickerChoices');
+  const openBtn = document.getElementById('openStickerModal');
+  const closeBtn = document.getElementById('closeStickerModal');
+
+  // Render all stickers once
+  choices.innerHTML = COLLECTION_ITEMS.map(
+    src => `<img class="sticker-thumb" data-src="${src}" src="${src}" alt="sticker">`
+  ).join('');
+
+  // Open
+  openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+
+  // Close
+  closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+
+  // Select sticker
+  choices.addEventListener('click', (e) => {
+    const img = e.target.closest('img[data-src]');
+    if(!img) return;
+    if(state.stars > 0) {
+      const rect = els.dropzone.getBoundingClientRect();
+      const x = rect.width/2 - 50;
+      const y = rect.height/2 - 50;
+      placeDraggable(img.dataset.src, x, y);
+      state.stars--;
+      renderStars();
+    }
+    modal.classList.add('hidden');
+  });
 }
+
 
 function enableDropzone(){
   els.dropzone.addEventListener('dragover', (e)=>e.preventDefault());

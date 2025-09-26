@@ -243,12 +243,14 @@ select, .btn {
   .option img{ height:100px }
 }
 
-/* Make prompt-image a positioned container */
 .prompt-image {
-  position: relative; /* NEW */
-  width: 100%;
-  max-width: 400px;
+  width: 80%;               /* smaller than full width */
+  max-width: 300px;         /* limit size */
   margin: 0 auto 1rem;
+  border: 3px solid var(--ring);  /* same grey border as options */
+  border-radius: 14px;      /* rounded corners like options */
+  overflow: hidden;
+  background: #fff;
 }
 
 .prompt-image img {
@@ -258,21 +260,41 @@ select, .btn {
   object-fit: contain;
 }
 
-/* Overlay play button in top-left corner */
-.play-overlay {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 14px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 2;
+.play-btn {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2563eb; /* blue */
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.2s, transform 0.1s;
 }
 
-.play-overlay:hover {
-  background: rgba(0,0,0,0.8);
+.play-btn:hover {
+  background: #1e40af; /* darker blue */
+}
+
+.play-btn:active {
+  transform: scale(0.95);
+}
+.sticker-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-height: 60vh;   /* scroll if too many */
+  overflow-y: auto;
+  padding: 10px;
+}
+.sticker-choices img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  cursor: pointer;
+  border: 1px solid var(--ring);
+  border-radius: 8px;
+  background: #fff;
 }
