@@ -51,19 +51,37 @@
 
 <section id="stickerCard" class="card hidden">
   <div class="info-row">
-    <span class="badge">?? Sticker Area</span>
-    <span class="badge" id="stickerNote">Earned items appear here</span>
+    <span class="badge" id="stickerNote">Arrange your stickers below.</span>
+      <div class="icon-toolbar" role="toolbar" aria-label="Sticker controls">
+        <button id="openStickerModal" class="icon-btn" aria-label="Add sticker">
+         <!-- add-sticker.svg (inline) -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+          <circle cx="12" cy="12" r="10" fill="#22c55e"/>
+          <path d="M12 7v10M7 12h10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        </button>
+        <button id="deleteBtn" class="icon-btn" aria-label="Delete sticker" disabled>
+          <!-- delete.svg (inline) -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+          <circle cx="12" cy="12" r="10" fill="#ef4444"/>
+          <path d="M9 9l6 6M15 9l-6 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+
+        </button>
+      </div>
   </div>
+
   <div class="sticker-wrap">
-    <div id="stickerCanvas" class="sticker-canvas">
+        <!-- overlay toolbar sits on top of the background -->
+
+    <div class="sticker-canvas" id="stickerCanvas">
       <div id="dropzone" class="dropzone"></div>
       <div id="bgPrompt" class="bg-prompt">Tap to select background</div>
     </div>
   </div>
-  <div class="toolbar">
-    <button id="openStickerModal" class="btn">? Add Sticker</button>
-  </div>
 </section>
+
+
 <div id="stickerModal" class="modal hidden">
   <div class="modal-content">
     <h3>Select a sticker</h3>

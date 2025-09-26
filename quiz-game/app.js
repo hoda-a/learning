@@ -138,9 +138,13 @@ function startLevel() {
 
 function resetAll(){
   clearInterval(state.timerId);
-  state.questionIndex=0; state.timeLeft=30;
-  state.currentAnswer=null; state.attemptMade=false;
-  els.feedback.textContent=''; showView('quiz');
+  state.questionIndex=0; 
+  state.timeLeft=30;
+  state.currentAnswer=null; 
+  state.attemptMade=false;
+  els.feedback.textContent=''; 
+  els.stickerCanvas.style.backgroundImage = '';
+  showView('quiz');
 }
 
 function startRound(){
@@ -341,6 +345,16 @@ function initStickerModal() {
   const choices = document.getElementById('stickerChoices');
   const openBtn = document.getElementById('openStickerModal');
   const closeBtn = document.getElementById('closeStickerModal');
+  const deleteBtn = document.getElementById('deleteBtn');
+  
+  // delete currently selected sticker
+  deleteBtn.addEventListener('click', () => {
+    if (selectedEl) {
+      selectedEl.remove();
+      selectedEl = null;
+      deleteBtn.disabled = true;
+    }
+  });
 
   // Render all stickers once
   choices.innerHTML = COLLECTION_ITEMS.map(
@@ -348,10 +362,18 @@ function initStickerModal() {
   ).join('');
 
   // Open
-  openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+  openBtn.addEventListener('click', () => {     
+    if (state.stars <= 0) {
+      alert('Earn more stars first!');
+      return;
+    }
+    modal.classList.remove('hidden');
+    document.querySelector('.sticker-toolbar').classList.add('hidden'); 
+    }
+  )
 
   // Close
-  closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  closeBtn.addEventListener('click', () => { modal.classList.add('hidden'); document.querySelector('.sticker-toolbar').classList.remove('hidden');});
 
   // Select sticker
   choices.addEventListener('click', (e) => {
@@ -416,7 +438,12 @@ function placeDraggable(src,x,y){
 function selectDraggable(el){
   if(selectedEl) selectedEl.classList.remove('selected');
   selectedEl=el;
-  if(el) el.classList.add('selected');
+  if(el){
+    el.classList.add('selected');
+    deleteBtn.disabled = false;
+  } else {
+    deleteBtn.disabled = true;
+  }
 }
 
 function onDragStart(e){
