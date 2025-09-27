@@ -3,10 +3,12 @@ import { COLLECTION_ITEMS } from './data.js';
 
 const els = {
   levelSelect: document.getElementById('levelSelect'),
-  resetBtn: document.getElementById('resetBtn'),
-  toggleBtn : document.getElementById("toggleBtn"),
-  bgPrompt : document.getElementById("bgPrompt"),
+  resetBtn1: document.getElementById('resetBtn1'),
+  resetBtn2: document.getElementById('resetBtn2'),
+  goStickerBtn : document.getElementById("goStickerBtn"),
+  goQuizBtn : document.getElementById("goQuizBtn"),
   bgModal : document.getElementById("bgModal"),
+  bgSelector : document.getElementById("bgSelector"),
 
   quizCard: document.getElementById('quizCard'),
   stickerCard: document.getElementById('stickerCard'),
@@ -55,7 +57,7 @@ function init() {
   .map(t => `<button data-theme="${t}"><img src="${THEME_BG(t)}" alt="${t}"></button>`)
   .join('');
 
-  els.bgPrompt.addEventListener('click', () => {
+  els.bgSelector.addEventListener('click', () => {
   els.bgModal.classList.remove('hidden');
  });
 
@@ -65,29 +67,26 @@ function init() {
    state.theme = btn.dataset.theme;
    applyTheme();
    els.bgModal.classList.add('hidden');
-   els.bgPrompt.classList.add('hidden'); // hide prompt once background is chosen
  });
 
 
 
 
-  els.resetBtn.addEventListener("click", () => {
-    els.resetBtn.textContent = "Restart"
-    resetAll();
+  els.resetBtn1.addEventListener("click", () => {
+    els.resetBtn1.textContent = "Restart Quiz"
+    resetQuiz();
     startLevel();
   });
 
-  els.toggleBtn.addEventListener("click", () => {
-    const showingSticker = !els.stickerCard.classList.contains("hidden");
-    if (showingSticker) {
-      // switch to quiz
-      showView("quiz");
-      els.toggleBtn.textContent = "Sticker Area";
-    } else {
-      // switch to sticker
-      showView("sticker");
-      els.toggleBtn.textContent = "Back to Quiz";
-    }
+  els.resetBtn2.addEventListener("click", () => {
+    resetSticker();
+  });
+
+  els.goQuizBtn.addEventListener("click", () => {
+    showView("quiz");
+  });
+  els.goStickerBtn.addEventListener("click", () => {
+    showView("sticker");
   });
   els.playBtn.addEventListener('click', () => { els.qAudio.currentTime = 0; els.qAudio.play(); });
   enableDropzone();
@@ -127,7 +126,6 @@ function startLevel() {
   state.levelIndex = parseInt(params.get("level"), 10);
 
   state.questionIndex = 0;
-  state.stars = 0;
   state.poolIndices = makeQuestionPool(levels[state.levelIndex]);
   renderStars();
   showView('quiz');
@@ -136,21 +134,27 @@ function startLevel() {
 }
 
 
-function resetAll(){
+function resetQuiz(){
   clearInterval(state.timerId);
   state.questionIndex=0; 
   state.timeLeft=30;
   state.currentAnswer=null; 
   state.attemptMade=false;
   els.feedback.textContent=''; 
-  els.stickerCanvas.style.backgroundImage = '';
   showView('quiz');
+}
+
+function resetSticker(){
+  els.stickerCanvas.style.backgroundImage = '';
+  els.dropzone.innerHTML = "";
+  showView('sticker');
 }
 
 function startRound(){
   showView('quiz');
   state.questionIndex=0; state.roundMistakes=0; state.timeLeft=30;
-  renderQuestion(); startTimer();
+  renderQuestion(); 
+  startTimer();
 }
 
 

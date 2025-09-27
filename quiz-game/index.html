@@ -10,16 +10,13 @@
   <div class="app">
 
     <main class="main">
-      <div class="toolbar">
-        <button id="toggleBtn" class="btn">Sticker Area</button>
-        <button id="resetBtn" class="btn">Start</button>
-      </div>
-
       <div id="starBar"></div>
 
 <section id="quizCard" class="card">
   <div class="info-row">
     <span class="badge note" id="hint">Listen and tap the match</span>
+    <button id="goStickerBtn" class="btn">Sticker Area</button>
+    <button id="resetBtn1" class="btn">Start</button>
     <span class="badge timer" id="timer">30</span>
   </div>
 
@@ -51,8 +48,10 @@
 
 <section id="stickerCard" class="card hidden">
   <div class="info-row">
-    <span class="badge" id="stickerNote">Arrange your stickers below.</span>
       <div class="icon-toolbar" id="stickertoolbar" role="toolbar" aria-label="Sticker controls">
+        <button id="bgSelector" class="btn">Background</button>
+        <button id="goQuizBtn" class="btn">Back to Quiz</button>
+        <button id="resetBtn2" class="btn">Retart</button>
         <button id="openStickerModal" class="icon-btn" aria-label="Add sticker">
          <!-- add-sticker.svg (inline) -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
@@ -76,7 +75,6 @@
 
     <div class="sticker-canvas" id="stickerCanvas">
       <div id="dropzone" class="dropzone"></div>
-      <div id="bgPrompt" class="bg-prompt">Tap to select background</div>
     </div>
   </div>
 </section>
