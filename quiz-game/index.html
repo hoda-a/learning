@@ -51,7 +51,7 @@
       <div class="icon-toolbar" id="stickertoolbar" role="toolbar" aria-label="Sticker controls">
         <button id="bgSelector" class="btn">Background</button>
         <button id="goQuizBtn" class="btn">Back to Quiz</button>
-        <button id="resetBtn2" class="btn">Retart</button>
+        <button id="resetBtn2" class="btn">Restart</button>
         <button id="openStickerModal" class="icon-btn" aria-label="Add sticker">
          <!-- add-sticker.svg (inline) -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
@@ -82,9 +82,14 @@
 
 <div id="stickerModal" class="modal hidden">
   <div class="modal-content">
+    <button id="closeStickerModal" class="icon-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+     <circle cx="12" cy="12" r="11" fill="none" stroke="#9ca3af" stroke-width="2"/>
+     <path d="M8 8l8 8M16 8l-8 8" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    </button>
     <h3>Select a sticker</h3>
     <div id="stickerChoices" class="sticker-choices"></div>
-    <button id="closeStickerModal" class="btn">Close</button>
   </div>
 </div>
 
@@ -94,6 +99,12 @@
   
   <div id="bgModal" class="modal hidden">
   <div class="modal-content">
+    <button id="closeBgModal" class="icon-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+      <circle cx="12" cy="12" r="11" fill="none" stroke="#9ca3af" stroke-width="2"/>
+      <path d="M8 8l8 8M16 8l-8 8" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    </button>
     <h3>Select a background</h3>
     <div id="bgChoices" class="bg-choices"></div>
   </div>

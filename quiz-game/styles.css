@@ -24,7 +24,18 @@ body {
   border-radius:16px;
   padding:16px;
   box-shadow:0 2px 10px rgba(0,0,0,.04);
+
 }
+
+/* Only push the sticker card, not the quiz card */
+#stickerCard.card {
+  margin-left: 50px; /* leave space for star bar */
+}
+
+#quizCard.card {
+  margin-left: 35px; /* keep quiz card centered */
+}
+
 
 .header { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px }
 .header .title h1 { margin:0; font-size:22px }
@@ -180,22 +191,27 @@ select, .btn {
 }
 .draggable.selected .resize-handle { display: block; }
 
-/* Star bar */
 #starBar {
   position: fixed;
-  top: 80px;
-  left: 0;
-  width: 40px;
+  top: 100px;               /* a little lower so it clears headers */
+  left: 12px;               /* slight gap from screen edge */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  padding: 4px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 0 6px 6px 0;
-  z-index: 1000;
+  padding: 6px;
+  
+  background: rgba(255,255,255,0.85);  /* white glassy box */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;             /* always above cards */
 }
-#starBar img { width: 24px; height: 24px; object-fit: contain; }
+
+#starBar svg {
+  width: 24px;
+  height: 24px;
+}
+
 
 /* Modal */
 .modal {

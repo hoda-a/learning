@@ -8,6 +8,7 @@ const els = {
   goStickerBtn : document.getElementById("goStickerBtn"),
   goQuizBtn : document.getElementById("goQuizBtn"),
   bgModal : document.getElementById("bgModal"),
+  bgClose : document.getElementById("closeBgModal"),
   bgSelector : document.getElementById("bgSelector"),
 
   quizCard: document.getElementById('quizCard'),
@@ -70,6 +71,9 @@ function init() {
  });
 
 
+  els.bgClose.addEventListener('click', (e) => {
+  els.bgModal.classList.add('hidden');
+ });
 
 
   els.resetBtn1.addEventListener("click", () => {
@@ -84,6 +88,7 @@ function init() {
 
   els.goQuizBtn.addEventListener("click", () => {
     showView("quiz");
+    renderQuestion();
   });
   els.goStickerBtn.addEventListener("click", () => {
     showView("sticker");
@@ -92,6 +97,23 @@ function init() {
   enableDropzone();
   renderStars();
   initStickerModal();
+  
+  document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    pauseGame();
+  }
+  });
+
+  window.addEventListener("blur", () => {
+    pauseGame();
+  });
+
+  window.addEventListener("focus", () => {
+  if (document.getElementById("quizCard") && 
+      !document.getElementById("quizCard").classList.contains("hidden")) {
+    renderQuestion();  // reloads current question, plays sound, restarts timer
+  }
+});
 
 }
 document.addEventListener('DOMContentLoaded', init);
@@ -109,8 +131,7 @@ function showView(which) {
 
   if (onSticker) {
     // Pause game flow
-    clearInterval(state.timerId);
-    state.timerId = null;
+    pauseGame();
   } else {
     // Resume timer if it was paused
     if (!state.timerId && state.timeLeft > 0) {
@@ -287,22 +308,30 @@ function onOptionClick(e) {
 }
 
 
+const filledStarSVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 
+             9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+          fill="#facc15" stroke="#eab308" stroke-width="1"/>
+  </svg>`;
+
+const hollowStarSVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 
+             9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+          fill="none" stroke="#9ca3af" stroke-width="2"/>
+  </svg>`;
+
 function renderStars() {
   els.starBar.innerHTML = '';
   let count = state.stars
-  if (count < 20) {
-    count = 20
+  if (count < 30) {
+    count = 30
   }
   for (let i = 0; i < count; i++) {
-    const img = document.createElement('img');
-    if (i < state.stars) {
-      img.src = '../media/stickers/o07.png';  
-      img.alt = '*';
-    } else {
-      img.src = '../media/stickers/c10.png';  
-      img.alt = '*';
-    }
-    els.starBar.appendChild(img);
+    const wrapper = document.createElement('span');
+    wrapper.innerHTML = i < state.stars ? filledStarSVG : hollowStarSVG;
+    els.starBar.appendChild(wrapper);
   }
 }
 
@@ -501,5 +530,20 @@ window.addEventListener('keydown',(e)=>{
     selectedEl=null;
   }
 });
+
+function pauseGame() {
+  // stop timer
+  clearInterval(state.timerId);
+  state.timerId = null;
+
+  // stop question sound
+  els.qAudio.pause();
+  els.qAudio.currentTime = 0;
+
+  // stop feedback/correct/wrong sound
+  sfxAudio.pause();
+  sfxAudio.currentTime = 0;
+}
+
 
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
