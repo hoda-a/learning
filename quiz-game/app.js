@@ -10,11 +10,11 @@ const els = {
   bgModal : document.getElementById("bgModal"),
   bgClose : document.getElementById("closeBgModal"),
   bgSelector : document.getElementById("bgSelector"),
+  quizNavigation : document.getElementById("quizNavigation"),
 
   quizCard: document.getElementById('quizCard'),
   stickerCard: document.getElementById('stickerCard'),
 
-  timer: document.getElementById('timer'),
   hint: document.getElementById('hint'),
 
   options: document.getElementById('options'),
@@ -32,6 +32,8 @@ const els = {
   stickerCanvas: document.getElementById('stickerCanvas'),
   dropzone: document.getElementById('dropzone'),
   starBar: document.getElementById('starBar'),
+  timerFill: document.getElementById('timerFill'),
+  
 };
 
 const SFX = { correct:'../media/sounds/correct.mp3', wrong:'../media/sounds/wrong.mp3', ding:'../media/sounds/ding.mp3' };
@@ -111,7 +113,7 @@ function init() {
   window.addEventListener("focus", () => {
   if (document.getElementById("quizCard") && 
       !document.getElementById("quizCard").classList.contains("hidden")) {
-    renderQuestion();  // reloads current question, plays sound, restarts timer
+     //renderQuestion();  // reloads current question, plays sound, restarts timer
   }
 });
 
@@ -127,6 +129,7 @@ function applyTheme() {
 function showView(which) {
   const onSticker = which === 'sticker';
   els.stickerCard.classList.toggle('hidden', !onSticker);
+  els.quizNavigation.classList.toggle('hidden', onSticker);
   els.quizCard.classList.toggle('hidden', onSticker);
 
   if (onSticker) {
@@ -135,19 +138,29 @@ function showView(which) {
   } else {
     // Resume timer if it was paused
     if (!state.timerId && state.timeLeft > 0) {
-      startTimer(true);  // pass true to indicate resume
+      startTimer();  // pass true to indicate resume
     }
   }
 }
 
 
 
+
 function startLevel() {
   const params = new URLSearchParams(window.location.search);
-  state.levelIndex = parseInt(params.get("level"), 10);
+  state.levelIndex = parseInt(params.get('level') || 0, 10);
+  
+  const order = params.get('order');
+  const level = levels[state.levelIndex];
+
+
+  if (order === 'linear') {
+    state.poolIndices = Array.from({ length: level.images.length }, (_, i) => i);
+  } else {
+    state.poolIndices = makeQuestionPool(levels[state.levelIndex]);
+  }
 
   state.questionIndex = 0;
-  state.poolIndices = makeQuestionPool(levels[state.levelIndex]);
   renderStars();
   showView('quiz');
   renderQuestion();
@@ -179,25 +192,36 @@ function startRound(){
 }
 
 
-function startTimer(resume = false) {
+function startTimer() {
   clearInterval(state.timerId);
-
-  if (!resume) {
-    state.timeLeft = 30; // only reset if not resuming
+  if (state.pauseStart) {
+    state.totalPause = state.totalPause + Date.now() - state.pauseStart;
+    state.timerId = requestAnimationFrame(updateTimer);
+  } else {
+      state.timeLeft = 30;
+      state.totalPause = 0;
+      state.startTime = Date.now();
   }
+  state.pauseStart = null;
 
-  els.timer.textContent = String(state.timeLeft);
+  function updateTimer() {
+    if (state.pauseStart > 0) {
+      return;
+    }
+    const elapsed = (Date.now() - state.startTime - state.totalPause) / 1000;
+    state.timeLeft = Math.max(0, 30 - elapsed);
+    els.timerFill.style.width = `${(state.timeLeft / 30) * 100}%`;
 
-  state.timerId = setInterval(() => {
-    state.timeLeft--;
-    els.timer.textContent = String(state.timeLeft);
     if (state.timeLeft <= 0) {
       clearInterval(state.timerId);
-      state.timerId = null;
       handleTimeout();
+    } else {
+      state.timerId = requestAnimationFrame(updateTimer);
     }
-  }, 1000);
+  }
+  requestAnimationFrame(updateTimer);
 }
+
 
 
 
@@ -535,6 +559,7 @@ function pauseGame() {
   // stop timer
   clearInterval(state.timerId);
   state.timerId = null;
+  state.pauseStart = Date.now();
 
   // stop question sound
   els.qAudio.pause();

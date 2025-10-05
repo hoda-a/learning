@@ -11,14 +11,17 @@
 
     <main class="main">
       <div id="starBar"></div>
-
+    <div id="quizNavigation">
+     <button id="goStickerBtn" class="btn">Sticker Area</button>
+     <button id="resetBtn1" class="btn">Start</button>
+    </div>
 <section id="quizCard" class="card">
-  <div class="info-row">
-    <span class="badge note" id="hint">Listen and tap the match</span>
-    <button id="goStickerBtn" class="btn">Sticker Area</button>
-    <button id="resetBtn1" class="btn">Start</button>
-    <span class="badge timer" id="timer">30</span>
+<div class="info-row">
+  <span class="badge note" id="hint">Listen and tap the match</span>
+  <div class="timer-bar">
+    <div id="timerFill"></div>
   </div>
+</div>
 
 <div class="question">
   <div class="question-media">
@@ -29,7 +32,7 @@
          <path d="M4 9v6h4l5 5V4L8 9H4z"/>
          <path d="M14.5 12c0-1.77 1.02-3.29 2.5-4.03v8.06c-1.48-.74-2.5-2.26-2.5-4.03zm2.5-7.03v2.06c2.89 1.12 5 3.94 5 7s-2.11 5.88-5 7v2.06c4.01-1.25 7-5.01 7-9.06s-2.99-7.81-7-9.06z"/>
        </svg>
-</button>
+      </button>
 
     </div>
     <audio id="qAudio" preload="auto"></audio>
@@ -37,7 +40,7 @@
 </div>
 
 
-    <div id="options" class="options"></div>
+<div id="options" class="options"></div>
 
     <div class="footer-row">
       <div id="feedback" class="feedback" aria-live="polite"></div>

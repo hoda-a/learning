@@ -175,14 +175,27 @@ const level4 = {
 // Level 5: Whole verses
 const level5 = {
   sounds: [
-    "quran-verses-mp3/01.mp3",
-    "quran-verses-mp3/02.mp3",
+    "../media/ikhlas/0.mp3",
+    "../media/ikhlas/1.mp3",
+    "../media/ikhlas/2.mp3",
+    "../media/ikhlas/3.mp3",
+    "../media/ikhlas/4.mp3"
     // …
   ],
-  soundImages: [],
+  soundImages: [
+    "../media/ikhlas/p0.png",
+    "../media/ikhlas/p1.png",
+    "../media/ikhlas/p2.png",
+    "../media/ikhlas/p3.png",
+    "../media/ikhlas/p4.png"
+
+  ],
   images: [
-    "quran-verses/01.png",
-    "quran-verses/02.png",
+    "../media/ikhlas/i0.png",
+    "../media/ikhlas/i1.png",
+    "../media/ikhlas/i2.png",
+    "../media/ikhlas/i3.png",
+    "../media/ikhlas/i4.png"
     // …
   ]
 };
