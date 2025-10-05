@@ -10,18 +10,19 @@
   <div class="app">
 
     <main class="main">
-      <div id="starBar"></div>
+    <div id="starBar"></div>
     <div id="quizNavigation">
+    <div class="info-row">
+       <span class="badge note" id="hint">Listen and tap the match</span>
+       <div class="timer-bar">
+         <div id="timerFill"></div>
+       </div>
      <button id="goStickerBtn" class="btn">Sticker Area</button>
      <button id="resetBtn1" class="btn">Start</button>
     </div>
+
+    </div>
 <section id="quizCard" class="card">
-<div class="info-row">
-  <span class="badge note" id="hint">Listen and tap the match</span>
-  <div class="timer-bar">
-    <div id="timerFill"></div>
-  </div>
-</div>
 
 <div class="question">
   <div class="question-media">
@@ -49,9 +50,13 @@
 </section>
 
 
+
 <section id="stickerCard" class="card hidden">
+
+  <div class="sticker-wrap">
+        <!-- overlay toolbar sits on top of the background -->
+<div id="stickerNavigation">
   <div class="info-row">
-      <div class="icon-toolbar" id="stickertoolbar" role="toolbar" aria-label="Sticker controls">
         <button id="bgSelector" class="btn">Background</button>
         <button id="goQuizBtn" class="btn">Back to Quiz</button>
         <button id="resetBtn2" class="btn">Restart</button>
@@ -70,11 +75,8 @@
         </svg>
 
         </button>
-      </div>
   </div>
-
-  <div class="sticker-wrap">
-        <!-- overlay toolbar sits on top of the background -->
+</div>
 
     <div class="sticker-canvas" id="stickerCanvas">
       <div id="dropzone" class="dropzone"></div>

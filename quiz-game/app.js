@@ -11,6 +11,7 @@ const els = {
   bgClose : document.getElementById("closeBgModal"),
   bgSelector : document.getElementById("bgSelector"),
   quizNavigation : document.getElementById("quizNavigation"),
+  stickerNavigation : document.getElementById("stickerNavigation"),
 
   quizCard: document.getElementById('quizCard'),
   stickerCard: document.getElementById('stickerCard'),
@@ -77,6 +78,7 @@ function init() {
   els.bgModal.classList.add('hidden');
  });
 
+  els.stickerNavigation.classList.toggle('hidden', true);
 
   els.resetBtn1.addEventListener("click", () => {
     els.resetBtn1.textContent = "Restart Quiz"
@@ -127,9 +129,15 @@ function applyTheme() {
 }
 
 function showView(which) {
+  els.quizCard.classList.remove('active');
+  els.stickerCard.classList.remove('active');
+  if (which === 'quiz') els.quizCard.classList.add('active');
+  else els.stickerCard.classList.add('active');
+  
   const onSticker = which === 'sticker';
   els.stickerCard.classList.toggle('hidden', !onSticker);
   els.quizNavigation.classList.toggle('hidden', onSticker);
+  els.stickerNavigation.classList.toggle('hidden', !onSticker);
   els.quizCard.classList.toggle('hidden', onSticker);
 
   if (onSticker) {
@@ -425,14 +433,12 @@ function initStickerModal() {
       return;
     }
     modal.classList.remove('hidden');
-    document.getElementById('stickertoolbar').classList.add('hidden'); 
     }
   )
 
   // Close
   closeBtn.addEventListener('click', () => {
      modal.classList.add('hidden');
-     document.getElementById('stickertoolbar').classList.remove('hidden');
   });
 
   // Select sticker
@@ -448,7 +454,6 @@ function initStickerModal() {
       renderStars();
     }
     modal.classList.add('hidden');
-    document.getElementById('stickertoolbar').classList.remove('hidden');
   });
 }
 
