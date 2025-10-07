@@ -86,8 +86,11 @@ function init() {
     startLevel();
   });
 
-  els.resetBtn2.addEventListener("click", () => {
-    resetSticker();
+  els.resetBtn2.addEventListener("click", () => {
+    const confirmed = confirm("Are you sure you want to clear your sticker area?");
+    if (confirmed) {
+      resetSticker();
+    }
   });
 
   els.goQuizBtn.addEventListener("click", () => {
@@ -146,7 +149,7 @@ function showView(which) {
   } else {
     // Resume timer if it was paused
     if (!state.timerId && state.timeLeft > 0) {
-      startTimer();  // pass true to indicate resume
+      startTimer(); 
     }
   }
 }
@@ -172,7 +175,6 @@ function startLevel() {
   renderStars();
   showView('quiz');
   renderQuestion();
-  startTimer();
 }
 
 
@@ -192,13 +194,20 @@ function resetSticker(){
   showView('sticker');
 }
 
-function startRound(){
-  showView('quiz');
-  state.questionIndex=0; state.roundMistakes=0; state.timeLeft=30;
-  renderQuestion(); 
-  startTimer();
-}
 
+function resetTimer() {
+      state.timeLeft = 30;
+      state.totalPause = 0;
+      state.startTime = Date.now();
+      // Instantly reset the bar to full width (no animation)
+      els.timerFill.style.transition = "none";
+      els.timerFill.style.width = "100%";
+      // Force reflow to apply the style change immediately
+      void els.timerFill.offsetWidth;
+      // Re-enable transition for next countdown
+      els.timerFill.style.transition = "width linear";
+
+}
 
 function startTimer() {
   clearInterval(state.timerId);
@@ -206,9 +215,7 @@ function startTimer() {
     state.totalPause = state.totalPause + Date.now() - state.pauseStart;
     state.timerId = requestAnimationFrame(updateTimer);
   } else {
-      state.timeLeft = 30;
-      state.totalPause = 0;
-      state.startTime = Date.now();
+     resetTimer();
   }
   state.pauseStart = null;
 
@@ -241,7 +248,8 @@ function handleTimeout(){
 
   markOption(null); 
   els.feedback.textContent='⏰ Time up!';
-  els.feedback.className = 'feedback wrong';
+  els.feedback.className = 'feedback show wrong';
+  setTimeout(() => els.feedback.classList.remove('show'), 800);
 }
 
 function renderQuestion() {
@@ -315,7 +323,9 @@ function onOptionClick(e) {
     sfx('wrong');
     state.attemptMade = true;
     els.feedback.textContent = 'Try again.';
-    els.feedback.className = 'feedback wrong';
+    els.feedback.className = 'feedback show wrong';
+    setTimeout(() => els.feedback.classList.remove('show'), 800);
+
     return;
   }
 
@@ -324,7 +334,8 @@ function onOptionClick(e) {
   if (isCorrect) {
     markOption(chosen, true);
     els.feedback.textContent = 'Great!';
-    els.feedback.className = 'feedback correct';
+    els.feedback.className = 'feedback show correct';
+    setTimeout(() => els.feedback.classList.remove('show'), 600);
     awardStickers(1);
     sfx('correct', () => {
       setTimeout(() => nextQuestion(), 600); // 1s after sound
@@ -332,7 +343,8 @@ function onOptionClick(e) {
   } else {
     markOption(chosen, false);
     els.feedback.textContent = 'Incorrect.';
-    els.feedback.className = 'feedback wrong';
+    els.feedback.className = 'feedback show wrong';
+    setTimeout(() => els.feedback.classList.remove('show'), 900);
     sfx('wrong', () => {
       setTimeout(() => nextQuestion(), 900); // 1s after sound
     });
@@ -375,9 +387,10 @@ function nextQuestion(){
   const level = levels[state.levelIndex];
   if (state.questionIndex < state.poolIndices.length - 1) {
     state.questionIndex++;
+    resetTimer();
     renderQuestion();
   } else {
-    alert("Level finished! You can keep decorating your sticker area.");
+    alert("Quiz finished! You can keep decorate your sticker area.");
     showView('sticker');
   }
 

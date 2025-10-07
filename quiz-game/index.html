@@ -13,12 +13,12 @@
     <div id="starBar"></div>
     <div id="quizNavigation">
     <div class="info-row">
+     <button id="resetBtn1" class="btn">Start</button>
        <span class="badge note" id="hint">Listen and tap the match</span>
        <div class="timer-bar">
          <div id="timerFill"></div>
        </div>
      <button id="goStickerBtn" class="btn">Sticker Area</button>
-     <button id="resetBtn1" class="btn">Start</button>
     </div>
 
     </div>
@@ -57,9 +57,6 @@
         <!-- overlay toolbar sits on top of the background -->
 <div id="stickerNavigation">
   <div class="info-row">
-        <button id="bgSelector" class="btn">Background</button>
-        <button id="goQuizBtn" class="btn">Back to Quiz</button>
-        <button id="resetBtn2" class="btn">Restart</button>
         <button id="openStickerModal" class="icon-btn" aria-label="Add sticker">
          <!-- add-sticker.svg (inline) -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
@@ -75,6 +72,9 @@
         </svg>
 
         </button>
+        <button id="bgSelector" class="btn">Background</button>
+        <button id="goQuizBtn" class="btn">Back to Quiz</button>
+        <button id="resetBtn2" class="btn">Restart</button>
   </div>
 </div>
 
@@ -93,7 +93,6 @@
      <path d="M8 8l8 8M16 8l-8 8" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
     </svg>
     </button>
-    <h3>Select a sticker</h3>
     <div id="stickerChoices" class="sticker-choices"></div>
   </div>
 </div>
@@ -110,7 +109,6 @@
       <path d="M8 8l8 8M16 8l-8 8" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"/>
     </svg>
     </button>
-    <h3>Select a background</h3>
     <div id="bgChoices" class="bg-choices"></div>
   </div>
   </div>
