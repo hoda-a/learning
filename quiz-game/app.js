@@ -115,12 +115,34 @@ function init() {
     pauseGame();
   });
 
-  window.addEventListener("focus", () => {
-  if (document.getElementById("quizCard") && 
-      !document.getElementById("quizCard").classList.contains("hidden")) {
-     //renderQuestion();  // reloads current question, plays sound, restarts timer
-  }
+window.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('nameOverlay');
+  const playerInput = document.getElementById('playerNameInput');
+  const playerBtn = document.getElementById('playerNameBtn');
+
+  playerInput.focus();
+
+  playerBtn.addEventListener('click', () => {
+    const name = playerInput.value.trim();
+    if (!name) {
+      input.classList.add('ring-2', 'ring-red-500');
+      setTimeout(() => playerInput.classList.remove('ring-2', 'ring-red-500'), 800);
+      return;
+    }
+    els.resetBtn1.textContent = "Restart Quiz"
+    resetQuiz();
+    startLevel();
+    state.playerName = name;
+    els.resetBtn1.classList.remove('hidden')
+
+    overlay.style.display = 'none';
+  });
+
+  playerInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') btn.click();
+  });
 });
+
 
 }
 document.addEventListener('DOMContentLoaded', init);
@@ -173,7 +195,6 @@ function startLevel() {
 
   state.questionIndex = 0;
   renderStars();
-  showView('quiz');
   renderQuestion();
 }
 
@@ -230,6 +251,7 @@ function startTimer() {
     if (state.timeLeft <= 0) {
       clearInterval(state.timerId);
       handleTimeout();
+      state.timeLeft = 30
     } else {
       state.timerId = requestAnimationFrame(updateTimer);
     }
@@ -241,13 +263,15 @@ function startTimer() {
 
 
 function handleTimeout(){
+  postAnswerToGoogleForm(state.playerName, state.levelIndex, state.form_q, 'Timeout');
+
   lockQuestion(); 
   sfx('wrong', () => {
       setTimeout(() => nextQuestion(), 800); // 1s after sound
   });
 
   markOption(null); 
-  els.feedback.textContent='⏰ Time up!';
+  els.feedback.textContent="Time's up!";
   els.feedback.className = 'feedback show wrong';
   setTimeout(() => els.feedback.classList.remove('show'), 800);
 }
@@ -258,6 +282,8 @@ function renderQuestion() {
   const correctIdx = idx;
   state.currentAnswer = correctIdx;
   state.attemptMade = false;
+  state.form_q = level.sounds[correctIdx]
+  state.form_q = state.form_q.split('/').pop().split('.')[0];
 
   const soundSrc = level.sounds[correctIdx];
   els.qAudio.src = soundSrc || '';
@@ -318,6 +344,8 @@ function onOptionClick(e) {
   const chosen = parseInt(btn.dataset.index, 10);
   const isCorrect = (chosen === state.currentAnswer);
 
+  postAnswerToGoogleForm(state.playerName, state.levelIndex, state.form_q, isCorrect?'Correct':'Wrong');
+
   if (!isCorrect && !state.attemptMade) {
     btn.classList.add('wrong');
     sfx('wrong');
@@ -330,7 +358,6 @@ function onOptionClick(e) {
   }
 
   lockQuestion();
-
   if (isCorrect) {
     markOption(chosen, true);
     els.feedback.textContent = 'Great!';
@@ -590,3 +617,23 @@ function pauseGame() {
 
 
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+async function postAnswerToGoogleForm(studentId, level, question, result) {
+  const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScF5b47uNP3PXsPtL6Mmd7s9Yan3ILeeIPdiJuE9ifPcX424A/formResponse";
+
+  const formData = new FormData();
+  formData.append("entry.98497247", studentId);
+  formData.append("entry.289617934", level);
+  formData.append("entry.711248882", question);
+  formData.append("entry.531868725", result);
+  try {
+    await fetch(formUrl, {
+      method: "POST",
+      body: formData,
+      mode: "no-cors" // Google Forms doesn’t return CORS headers
+    });
+    console.log("Answer sent!");
+  } catch (err) {
+    console.error("Failed to send answer", err);
+  }
+}

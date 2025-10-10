@@ -248,18 +248,20 @@ body {
 }
 
 .sticker-canvas {
-  flex: 1;                     /* fills remaining height */
+  flex: 1;
   width: 100%;
+  max-width: 800px;       /* upper bound for big screens */
+  aspect-ratio: 4 / 3;    /* keeps a nice proportion */
+  margin: 0 auto;         /* center horizontally */
   position: relative;
   overflow: hidden;
   border: 1px dashed var(--ring);
   border-radius: 16px;
-
-  /* make the background fill exactly, no empty borders */
-  background-size: cover;       /* fill entire area */
+  background-size: contain;  /* show whole image without cropping */
   background-position: center;
   background-repeat: no-repeat;
 }
+
 
 
 .dropzone { position:absolute; inset:0 }
@@ -285,6 +287,26 @@ body {
   border-radius: 3px;
 }
 .draggable.selected .resize-handle { display: block; }
+
+
+#nameOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+#nameOverlay .dialog {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  max-width: 90%;
+  width: 20rem;
+  text-align: center;
+}
+
 
 /* ------------------- LANDSCAPE MODE ------------------- */
 @media (orientation: landscape) and (min-width: 600px) {
@@ -318,6 +340,12 @@ body {
     width: 70%;
     max-width: 320px;
     aspect-ratio: 1 / 1;
+  }
+}
+@media (max-width: 600px) {
+  .sticker-canvas {
+    max-width: 100%;
+    aspect-ratio: 3 / 4; /* slightly taller for mobile */
   }
 }
 
