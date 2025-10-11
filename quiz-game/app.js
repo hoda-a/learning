@@ -1,9 +1,9 @@
-import { levels } from './data.js';
+import { qsets } from './data.js';
 import { COLLECTION_ITEMS } from './data.js';
 
 const els = {
-  levelSelect: document.getElementById('levelSelect'),
-//  resetBtn1: document.getElementById('resetBtn1'),
+  qsetSelect: document.getElementById('qsetSelect'),
+  resetBtn1: document.getElementById('resetBtn1'),
   resetBtn2: document.getElementById('resetBtn2'),
   goStickerBtn : document.getElementById("goStickerBtn"),
   goQuizBtn : document.getElementById("goQuizBtn"),
@@ -11,7 +11,6 @@ const els = {
   bgClose : document.getElementById("closeBgModal"),
   bgSelector : document.getElementById("bgSelector"),
   quizNavigation : document.getElementById("quizNavigation"),
-  stickerNavigation : document.getElementById("stickerNavigation"),
 
   quizCard: document.getElementById('quizCard'),
   stickerCard: document.getElementById('stickerCard'),
@@ -31,8 +30,9 @@ const els = {
   bgChoices: document.getElementById('bgChoices'),
 
   stickerCanvas: document.getElementById('stickerCanvas'),
+  openStickerModal: document.getElementById('openStickerModal'),
+  deleteBtn: document.getElementById('deleteBtn'),
   dropzone: document.getElementById('dropzone'),
-  starSvg: document.getElementById('starSvg'),
   starCount: document.getElementById('starCount'),
   timerFill: document.getElementById('timerFill'),
   
@@ -49,7 +49,7 @@ const THEME_BG = t => `../media/backgrounds/${t}.png`;
 
 let state = {
   theme: 'garden',
-  levelIndex: 0,
+  qsetIndex: 0,
   questionIndex: 0,
   timeLeft: 30,
   timerId: null,
@@ -80,13 +80,12 @@ function init() {
   els.bgModal.classList.add('hidden');
  });
 
-  els.stickerNavigation.classList.toggle('hidden', true);
+  els.goQuizBtn.classList.toggle('hidden', true);
 
- /* els.resetBtn1.addEventListener("click", () => {
-    els.resetBtn1.textContent = "Restart Quiz"
+  els.resetBtn1.addEventListener("click", () => {
     resetQuiz();
-    startLevel();
-  }); */
+    startQSet();
+  }); 
 
   els.resetBtn2.addEventListener("click", () => {
     const confirmed = confirm("Are you sure you want to clear your sticker area?");
@@ -131,11 +130,9 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => playerInput.classList.remove('ring-2', 'ring-red-500'), 800);
       return;
     }
-    //els.resetBtn1.textContent = "Restart Quiz"
     resetQuiz();
-    startLevel();
+    startQSet();
     state.playerName = name;
- //   els.resetBtn1.classList.remove('hidden')
 
     overlay.style.display = 'none';
   });
@@ -163,8 +160,14 @@ function showView(which) {
   
   const onSticker = which === 'sticker';
   els.stickerCard.classList.toggle('hidden', !onSticker);
+  els.bgSelector.classList.toggle('hidden', !onSticker);
   els.quizNavigation.classList.toggle('hidden', onSticker);
-  els.stickerNavigation.classList.toggle('hidden', !onSticker);
+  els.goStickerBtn.classList.toggle('hidden', onSticker);
+  els.openStickerModal.classList.toggle('hidden', !onSticker);
+  els.resetBtn1.classList.toggle('hidden', onSticker);
+  els.resetBtn2.classList.toggle('hidden', !onSticker);
+  els.deleteBtn.classList.toggle('hidden', !onSticker);
+  els.goQuizBtn.classList.toggle('hidden', !onSticker);
   els.quizCard.classList.toggle('hidden', onSticker);
 
   if (onSticker) {
@@ -181,18 +184,18 @@ function showView(which) {
 
 
 
-function startLevel() {
+function startQSet() {
   const params = new URLSearchParams(window.location.search);
-  state.levelIndex = parseInt(params.get('level') || 0, 10);
+  state.qsetIndex = parseInt(params.get('qset') || 0, 10);
   
   const order = params.get('order');
-  const level = levels[state.levelIndex];
+  const qset = qsets[state.qsetIndex];
 
 
   if (order === 'linear') {
-    state.poolIndices = Array.from({ length: level.images.length }, (_, i) => i);
+    state.poolIndices = Array.from({ length: qset.images.length }, (_, i) => i);
   } else {
-    state.poolIndices = makeQuestionPool(levels[state.levelIndex]);
+    state.poolIndices = makeQuestionPool(qsets[state.qsetIndex]);
   }
 
   state.questionIndex = 0;
@@ -265,7 +268,7 @@ function startTimer() {
 
 
 function handleTimeout(){
-  postAnswerToGoogleForm(state.playerName, state.levelIndex, state.form_q, 'Timeout');
+  postAnswerToGoogleForm(state.playerName, state.qsetIndex, state.form_q, 'Timeout');
 
   lockQuestion(); 
   sfx('wrong', () => {
@@ -279,15 +282,14 @@ function handleTimeout(){
 }
 
 function renderQuestion() {
-  const level = levels[state.levelIndex];
+  const qset = qsets[state.qsetIndex];
   const idx = state.poolIndices[state.questionIndex];
   const correctIdx = idx;
   state.currentAnswer = correctIdx;
   state.attemptMade = false;
-  state.form_q = level.sounds[correctIdx]
-  state.form_q = state.form_q.split('/').pop().split('.')[0];
+  state.form_q = correctIdx
 
-  const soundSrc = level.sounds[correctIdx];
+  const soundSrc = qset.sounds[correctIdx];
   els.qAudio.src = soundSrc || '';
 
   if (soundSrc) {
@@ -304,17 +306,17 @@ function renderQuestion() {
   }
 
   // Handle prompt image
-  const hasPromptImg = Array.isArray(level.soundImages) && level.soundImages[correctIdx];
+  const hasPromptImg = Array.isArray(qset.soundImages) && qset.soundImages[correctIdx];
   if (hasPromptImg) {
     els.promptImageWrap.classList.remove('hidden');
-    els.promptImage.src = level.soundImages[correctIdx];
+    els.promptImage.src = qset.soundImages[correctIdx];
   } else {
     els.promptImageWrap.classList.add('hidden');
     els.promptImage.removeAttribute('src');
   }
 
   // Build options
-  const total = Math.min(level.images.length, level.sounds.length);
+  const total = Math.min(qset.images.length, qset.sounds.length);
   const distractors = new Set();
   while (distractors.size < 3 && distractors.size < total - 1) {
     const r = Math.floor(Math.random() * total);
@@ -329,7 +331,7 @@ function renderQuestion() {
     btn.className = 'option';
     btn.dataset.index = String(optIdx);
     const img = document.createElement('img');
-    img.src = level.images[optIdx];
+    img.src = qset.images[optIdx];
     img.alt = 'option';
     btn.appendChild(img);
     btn.addEventListener('click', onOptionClick);
@@ -346,7 +348,7 @@ function onOptionClick(e) {
   const chosen = parseInt(btn.dataset.index, 10);
   const isCorrect = (chosen === state.currentAnswer);
 
-  postAnswerToGoogleForm(state.playerName, state.levelIndex, state.form_q, isCorrect?'Correct':'Wrong');
+  postAnswerToGoogleForm(state.playerName, state.qsetIndex, state.form_q, isCorrect?'Correct':'Wrong');
 
   if (!isCorrect && !state.attemptMade) {
     btn.classList.add('wrong');
@@ -396,9 +398,7 @@ const hollowStarSVG = `
   </svg>`;
 
 function renderStars() {
-  let count = state.stars
-  els.starSvg.innerHTML = state.stars >0 ? filledStarSVG : hollowStarSVG;
-  els.starCount.innerHTML = count;
+  els.starCount.innerHTML = state.stars;
 }
 
 
@@ -406,20 +406,19 @@ function lockQuestion(){ clearInterval(state.timerId); Array.from(els.options.qu
 function markOption(chosen){ const buttons=Array.from(els.options.querySelectorAll('.option')); buttons.forEach(b=>{ const idx=parseInt(b.dataset.index,10); if(idx===state.currentAnswer) b.classList.add('correct'); if(chosen!==null && idx===chosen && idx!==state.currentAnswer) b.classList.add('wrong'); }); }
 
 function nextQuestion(){
-  const level = levels[state.levelIndex];
+  const qset = qsets[state.qsetIndex];
   if (state.questionIndex < state.poolIndices.length - 1) {
     state.questionIndex++;
     resetTimer();
     renderQuestion();
   } else {
-    alert("Quiz finished! You can keep decorate your sticker area.");
-    showView('sticker');
+    alert("Quiz finished!");
   }
 
 }
 
-function makeQuestionPool(level) {
-  const total = Math.min(level.images?.length || 0, level.sounds?.length || 0);
+function makeQuestionPool(qset) {
+  const total = Math.min(qset.images?.length || 0, qset.sounds?.length || 0);
   const all = Array.from({ length: total }, (_, i) => i);
   shuffle(all);
   return all;
@@ -613,12 +612,12 @@ function pauseGame() {
 
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
-async function postAnswerToGoogleForm(studentId, level, question, result) {
+async function postAnswerToGoogleForm(studentId, qset, question, result) {
   const formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScF5b47uNP3PXsPtL6Mmd7s9Yan3ILeeIPdiJuE9ifPcX424A/formResponse";
 
   const formData = new FormData();
   formData.append("entry.98497247", studentId);
-  formData.append("entry.289617934", level);
+  formData.append("entry.289617934", qset);
   formData.append("entry.711248882", question);
   formData.append("entry.531868725", result);
   try {

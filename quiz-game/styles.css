@@ -373,6 +373,67 @@ body {
 }
 
 
+#topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  z-index: 2000;
+}
+
+.star-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star-icon {
+  width: 40px;
+  height: 40px;
+}
+
+#starCount {
+  position: absolute;
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mode-toggles {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.icon-btn svg {
+  width: 32px;
+  height: 32px;
+  fill: #4b5563; /* neutral gray */
+  transition: transform 0.2s, fill 0.2s;
+}
+
+.icon-btn:hover svg {
+  transform: scale(1.1);
+  fill: #2563eb; /* accent on hover */
+}
 
 
 /* ------------------- MODAL ------------------- */
@@ -422,60 +483,6 @@ body {
   z-index: 20; /* sits above the background, not blocking it */
 }
 
-.icon-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  line-height: 0;      /* no extra spacing */
-  width: 40px;
-  height: 40px;
-}
-
-.icon-btn svg {
-  width: 36px;
-  height: 36px;
-  display: block;
-}
-.icon-btn:active svg {
-  transform: scale(0.9); /* little press feedback */
-}
-#starBar {
-  position: fixed;
-  top: 8px;
-  left: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(255,255,255,0.8);
-  padding: 4px 6px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  z-index: 1000;
-}
-
-#starBar img {
-  width: 28px;
-  height: 28px;
-}
-
-#starCount {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #facc15; /* gold-yellow */
-  margin-top: 2px;
-}
-
-/* mobile tweak */
-@media (max-width: 600px) {
-  #starBar img {
-    width: 22px;
-    height: 22px;
-  }
-  #starCount {
-    font-size: 0.8rem;
-  }
-}
 
 @media (max-width: 600px) {
   #stickerNavigation,
@@ -491,10 +498,6 @@ body {
     border-radius: 4px;
   }
 
-  .icon-btn svg {
-    width: 24px;
-    height: 24px;
-  }
 }
 
 #nameOverlay {

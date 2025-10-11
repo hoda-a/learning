@@ -14,7 +14,7 @@ export const COLLECTION_ITEMS = [
 
 
 // Level 1: Disjoint letters
-const level1 = {
+const qset1 = {
   sounds: [
     "../media/name-with-word/01.mp3",
     "../media/name-with-word/02.mp3",
@@ -108,7 +108,7 @@ const level1 = {
 };
 
 // Level 2: Letters with vowels
-const level2 = {
+const qset2 = {
   sounds: [
     "arabic-letters-short-vowels-mp3/1-1.mp3",
     "arabic-letters-short-vowels-mp3/1-2.mp3",
@@ -131,26 +131,74 @@ const level2 = {
 };
 
 // Level 3: Connected letters
-const level3 = {
+const qset3 = {
   sounds: [
     // You still need to supply these mp3s (similar pattern as above)
   ],
   soundImages: [
-    "arabic-letters-connected/01.jpg",
-    "arabic-letters-connected/02.jpg",
-    "arabic-letters-connected/03.jpg",
-    // … up to 28
+    "../media/arabic-letters/01.png",
+    "../media/arabic-letters/02.png",
+    "../media/arabic-letters/03.png",
+    "../media/arabic-letters/04.png",
+    "../media/arabic-letters/05.png",
+    "../media/arabic-letters/06.png",
+    "../media/arabic-letters/07.png",
+    "../media/arabic-letters/08.png",
+    "../media/arabic-letters/09.png",
+    "../media/arabic-letters/10.png",
+    "../media/arabic-letters/11.png",
+    "../media/arabic-letters/12.png",
+    "../media/arabic-letters/13.png",
+    "../media/arabic-letters/14.png",
+    "../media/arabic-letters/15.png",
+    "../media/arabic-letters/16.png",
+    "../media/arabic-letters/17.png",
+    "../media/arabic-letters/18.png",
+    "../media/arabic-letters/19.png",
+    "../media/arabic-letters/20.png",
+    "../media/arabic-letters/21.png",
+    "../media/arabic-letters/22.png",
+    "../media/arabic-letters/23.png",
+    "../media/arabic-letters/24.png",
+    "../media/arabic-letters/25.png",
+    "../media/arabic-letters/26.png",
+    "../media/arabic-letters/27.png",
+    "../media/arabic-letters/28.png"
   ],
   images: [
-    "../media/arabic-letters/01.jpg",
-    "../media/arabic-letters/02.jpg",
-    "../media/arabic-letters/03.jpg",
-    // … up to 28
-  ]
+      "../media/arabic-letters-connected/01.png",
+    "../media/arabic-letters-connected/02.png",
+    "../media/arabic-letters-connected/03.png",
+    "../media/arabic-letters-connected/04.png",
+    "../media/arabic-letters-connected/05.png",
+    "../media/arabic-letters-connected/06.png",
+    "../media/arabic-letters-connected/07.png",
+    "../media/arabic-letters-connected/08.png",
+    "../media/arabic-letters-connected/09.png",
+    "../media/arabic-letters-connected/10.png",
+    "../media/arabic-letters-connected/11.png",
+    "../media/arabic-letters-connected/12.png",
+    "../media/arabic-letters-connected/13.png",
+    "../media/arabic-letters-connected/14.png",
+    "../media/arabic-letters-connected/15.png",
+    "../media/arabic-letters-connected/16.png",
+    "../media/arabic-letters-connected/17.png",
+    "../media/arabic-letters-connected/18.png",
+    "../media/arabic-letters-connected/19.png",
+    "../media/arabic-letters-connected/20.png",
+    "../media/arabic-letters-connected/21.png",
+    "../media/arabic-letters-connected/22.png",
+    "../media/arabic-letters-connected/23.png",
+    "../media/arabic-letters-connected/24.png",
+    "../media/arabic-letters-connected/25.png",
+    "../media/arabic-letters-connected/26.png",
+    "../media/arabic-letters-connected/27.png",
+    "../media/arabic-letters-connected/28.png"
+  ],
 };
 
 // Level 4: Tanween
-const level4 = {
+const qset4 = {
   sounds: [
     "arabic-letters-tanween-mp3/1-1.mp3",
     "arabic-letters-tanween-mp3/1-2.mp3",
@@ -173,7 +221,7 @@ const level4 = {
 };
 
 // Level 5: Whole verses
-const level5 = {
+const qset5 = {
   sounds: [
     "../media/ikhlas/0.mp3",
     "../media/ikhlas/1.mp3",
@@ -200,4 +248,4 @@ const level5 = {
   ]
 };
 
-export const levels = [level1, level2, level3, level4, level5];
+export const qsets = [qset1, qset2, qset3, qset4, qset5];
