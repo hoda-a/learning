@@ -3,7 +3,7 @@ import { COLLECTION_ITEMS } from './data.js';
 
 const els = {
   levelSelect: document.getElementById('levelSelect'),
-  resetBtn1: document.getElementById('resetBtn1'),
+//  resetBtn1: document.getElementById('resetBtn1'),
   resetBtn2: document.getElementById('resetBtn2'),
   goStickerBtn : document.getElementById("goStickerBtn"),
   goQuizBtn : document.getElementById("goQuizBtn"),
@@ -32,8 +32,10 @@ const els = {
 
   stickerCanvas: document.getElementById('stickerCanvas'),
   dropzone: document.getElementById('dropzone'),
-  starBar: document.getElementById('starBar'),
+  starSvg: document.getElementById('starSvg'),
+  starCount: document.getElementById('starCount'),
   timerFill: document.getElementById('timerFill'),
+  
   
 };
 
@@ -80,11 +82,11 @@ function init() {
 
   els.stickerNavigation.classList.toggle('hidden', true);
 
-  els.resetBtn1.addEventListener("click", () => {
+ /* els.resetBtn1.addEventListener("click", () => {
     els.resetBtn1.textContent = "Restart Quiz"
     resetQuiz();
     startLevel();
-  });
+  }); */
 
   els.resetBtn2.addEventListener("click", () => {
     const confirmed = confirm("Are you sure you want to clear your sticker area?");
@@ -129,17 +131,17 @@ window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => playerInput.classList.remove('ring-2', 'ring-red-500'), 800);
       return;
     }
-    els.resetBtn1.textContent = "Restart Quiz"
+    //els.resetBtn1.textContent = "Restart Quiz"
     resetQuiz();
     startLevel();
     state.playerName = name;
-    els.resetBtn1.classList.remove('hidden')
+ //   els.resetBtn1.classList.remove('hidden')
 
     overlay.style.display = 'none';
   });
 
   playerInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') btn.click();
+    if (e.key === 'Enter') playerBtn.click();
   });
 });
 
@@ -394,16 +396,9 @@ const hollowStarSVG = `
   </svg>`;
 
 function renderStars() {
-  els.starBar.innerHTML = '';
   let count = state.stars
-  if (count < 30) {
-    count = 30
-  }
-  for (let i = 0; i < count; i++) {
-    const wrapper = document.createElement('span');
-    wrapper.innerHTML = i < state.stars ? filledStarSVG : hollowStarSVG;
-    els.starBar.appendChild(wrapper);
-  }
+  els.starSvg.innerHTML = state.stars >0 ? filledStarSVG : hollowStarSVG;
+  els.starCount.innerHTML = count;
 }
 
 

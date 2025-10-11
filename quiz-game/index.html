@@ -10,15 +10,19 @@
   <div class="app">
 
     <main class="main">
-    <div id="starBar"></div>
     <div id="quizNavigation">
     <div class="info-row">
-     <button id="resetBtn1" class="btn">Start</button>
+    <!-- <button id="resetBtn1" class="btn hidden">Start</button>-->
        <span class="badge note" id="hint">Listen and tap the match</span>
        <div class="timer-bar">
          <div id="timerFill"></div>
        </div>
      <button id="goStickerBtn" class="btn">Sticker Area</button>
+     <div id="starBar">
+  <span id="starSvg"></span>
+  <span id="starCount">0</span>
+</div>
+
     </div>
 
     </div>
@@ -114,21 +118,15 @@
   </div>
 
 <!-- Name modal -->
-<div id="nameOverlay"
-     class="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
-  <div class="bg-white rounded-2xl p-6 shadow-xl w-80 max-w-[90%] text-center">
-    <h2 class="text-xl font-semibold mb-3">Welcome!</h2>
-    <p class="text-gray-600 mb-4 text-sm">Enter your name to begin:</p>
-    <input id="playerNameInput"
-           type="text"
-           placeholder="Your name"
-           class="border w-full px-3 py-2 rounded-lg mb-4 text-center focus:outline-none focus:ring-2 focus:ring-blue-400" />
-    <button id="playerNameBtn"
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg w-full">
-      Start
-    </button>
+<div id="nameOverlay">
+  <div class="dialog">
+    <h2>Welcome!</h2>
+    <p>Please enter your name:</p>
+    <input type="text" id="playerNameInput" placeholder="Your name..." maxlength="20">
+    <button id="playerNameBtn">Start</button>
   </div>
 </div>
+
 
 
   <script type="module" src="data.js"></script>
