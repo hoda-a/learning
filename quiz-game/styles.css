@@ -104,13 +104,31 @@ body {
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 0.5em 1em;
-  font-size: 1rem;
+  padding: 0.4em 0.8em;   /* ?? smaller padding */
+  font-size: 0.95rem;
   cursor: pointer;
   transition: background 0.2s;
+  line-height: 1;
 }
-.btn:hover { background: #2980b9; }
-.btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn:hover {
+  background: #2980b9;
+}
+
+.btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Optional: make them even slimmer on very small screens */
+@media (max-width: 600px) {
+  .btn {
+    padding: 0.3em 0.6em;   /* ?? mobile-friendly */
+    font-size: 0.85rem;
+    border-radius: 4px;
+  }
+}
+
 
 /* ------------------- QUIZ AREA ------------------- */
 .question {
@@ -239,8 +257,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 0;
+  gap: 0.5rem;             /* ?? tighter spacing between buttons */
+  padding: 0.25rem 0;      /* ?? less top-bottom space */
   background: rgba(255, 255, 255, 0.9);
   z-index: 5;
 }
@@ -350,7 +368,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.25rem;
   }
 }
 
