@@ -627,7 +627,6 @@ async function postAnswerToGoogleForm(studentId, level, question, result) {
       body: formData,
       mode: "no-cors" // Google Forms doesn’t return CORS headers
     });
-    console.log("Answer sent!");
   } catch (err) {
     console.error("Failed to send answer", err);
   }

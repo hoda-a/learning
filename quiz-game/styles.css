@@ -51,9 +51,7 @@ body {
   overflow: hidden;
 }
 
-#stickerCard.card {
-  margin-left: 50px; /* leaves space for star bar */
-}
+
 
 /* ------------------- HEADER / INFO ------------------- */
 .info-row {
