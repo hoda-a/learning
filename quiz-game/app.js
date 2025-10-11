@@ -124,10 +124,16 @@ window.addEventListener('DOMContentLoaded', () => {
   playerInput.focus();
 
   playerBtn.addEventListener('click', () => {
+    const allowedPrefixes = ["saa", "had", "yah", "meh", "zay", "jul", "ali", "ibr", "hos", "hh", "zar", "zah", "kia"];
     const name = playerInput.value.trim();
     if (!name) {
-      input.classList.add('ring-2', 'ring-red-500');
-      setTimeout(() => playerInput.classList.remove('ring-2', 'ring-red-500'), 800);
+      return;
+    }
+    // Case-insensitive prefix check
+    const isValid = allowedPrefixes.some(prefix =>
+      name.toLowerCase().startsWith(prefix.toLowerCase())
+    );
+    if (!isValid) {
       return;
     }
     resetQuiz();
