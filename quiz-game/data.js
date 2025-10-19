@@ -248,4 +248,28 @@ const qset5 = {
   ]
 };
 
-export const qsets = [qset1, qset2, qset3, qset4, qset5];
+const qset6 = {
+  sounds: [
+    "../media/allah-names/1.mp3",
+    "../media/allah-names/2.mp3",
+    "../media/allah-names/3.mp3",
+    "../media/allah-names/4.mp3",
+    "../media/allah-names/5.mp3"
+  ],
+  soundImages: [
+      "../media/allah-names/1.jpg",
+    "../media/allah-names/2.jpg",
+    "../media/allah-names/3.png",
+    "../media/allah-names/4.jpg",
+    "../media/allah-names/5.jpg"
+  ],
+  images: [
+      "../media/allah-names/01.png",
+    "../media/allah-names/02.png",
+    "../media/allah-names/03.png",
+    "../media/allah-names/04.png",
+    "../media/allah-names/05.png",  
+  ]
+};
+
+export const qsets = [qset1, qset2, qset3, qset4, qset5, qset6];
