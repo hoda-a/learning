@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
   playerInput.focus();
 
   playerBtn.addEventListener('click', () => {
-    const allowedPrefixes = ["saa", "had", "yah", "meh", "zay", "jul", "ali", "ibr", "hos", "hh", "zar", "zah", "kia"];
+    const allowedPrefixes = ["saa", "had", "yah", "meh", "zay", "jul", "ali", "ibr", "hos", "hh", "zar", "zah", "kia", "ely"];
     const name = playerInput.value.trim();
     if (!name) {
       return;

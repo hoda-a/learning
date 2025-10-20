@@ -506,9 +506,10 @@ body {
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;  /* ?? place dialog at top area instead of middle */
+  padding-top: 15vh;        /* ?? gives some breathing space from top */
   z-index: 9999;
-  backdrop-filter: blur(6px);  /* ? nice blur */
+  backdrop-filter: blur(6px);
 }
 
 #nameOverlay .dialog {
