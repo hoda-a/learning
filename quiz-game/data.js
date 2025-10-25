@@ -5,10 +5,10 @@ export const COLLECTION_ITEMS = [
   '../media/stickers/c01.png','../media/stickers/c02.png','../media/stickers/c03.png','../media/stickers/c04.png','../media/stickers/c05.png','../media/stickers/c06.png','../media/stickers/c07.png','../media/stickers/c08.png','../media/stickers/c09.png','../media/stickers/c10.png','../media/stickers/c11.png','../media/stickers/c12.png','../media/stickers/c13.png','../media/stickers/c14.png','../media/stickers/c15.png','../media/stickers/c16.png','../media/stickers/c17.png','../media/stickers/c18.png','../media/stickers/c19.png','../media/stickers/c20.png',
   '../media/stickers/c21.png','../media/stickers/c22.png','../media/stickers/c23.png','../media/stickers/c24.png','../media/stickers/c25.png','../media/stickers/c26.png','../media/stickers/c27.png','../media/stickers/c28.png','../media/stickers/c29.png','../media/stickers/c30.png','../media/stickers/c31.png','../media/stickers/c32.png','../media/stickers/c33.png','../media/stickers/c34.png','../media/stickers/c35.png','../media/stickers/c36.png','../media/stickers/c37.png','../media/stickers/c38.png','../media/stickers/c39.png',
   '../media/stickers/s01.png','../media/stickers/s02.png','../media/stickers/s03.png','../media/stickers/s04.png','../media/stickers/s05.png','../media/stickers/s06.png','../media/stickers/s07.png','../media/stickers/s08.png',
-  '../media/stickers/o01.png','../media/stickers/o02.png','../media/stickers/o03.png','../media/stickers/o04.png','../media/stickers/o05.png','../media/stickers/o06.png','../media/stickers/o07.png','../media/stickers/o08.png',
+  '../media/stickers/o01.png','../media/stickers/o02.png','../media/stickers/o021.png','../media/stickers/o03.png','../media/stickers/o04.png','../media/stickers/o05.png','../media/stickers/o06.png','../media/stickers/o07.png','../media/stickers/o08.png',
   '../media/stickers/p01.png','../media/stickers/p02.png','../media/stickers/p03.png','../media/stickers/p04.png','../media/stickers/p05.png','../media/stickers/p06.png','../media/stickers/p07.png',
   '../media/stickers/u01.png','../media/stickers/u02.png','../media/stickers/u03.png','../media/stickers/u04.png','../media/stickers/u05.png','../media/stickers/u06.png','../media/stickers/u07.png',
-  '../media/stickers/j01.png','../media/stickers/j02.png','../media/stickers/j03.png','../media/stickers/j04.png','../media/stickers/j05.png','../media/stickers/j06.png','../media/stickers/j07.png','../media/stickers/j08.png','../media/stickers/j09.png','../media/stickers/j10.png','../media/stickers/j11.png',
+  '../media/stickers/j01.png','../media/stickers/j02.png','../media/stickers/j03.png','../media/stickers/j04.png','../media/stickers/j05.png','../media/stickers/j06.png','../media/stickers/j07.png','../media/stickers/j08.png','../media/stickers/j09.png','../media/stickers/j10.png','../media/stickers/j11.png','../media/stickers/j12.png',
 ];
 
 
@@ -267,7 +267,7 @@ const qset6 = {
     "../media/allah-names/02.png",
     "../media/allah-names/03.png",
     "../media/allah-names/04.png",
-    "../media/allah-names/05.png",  
+    "../media/allah-names/05.png",
   ]
 };
 

@@ -35,8 +35,8 @@ const els = {
   dropzone: document.getElementById('dropzone'),
   starCount: document.getElementById('starCount'),
   timerFill: document.getElementById('timerFill'),
-  
-  
+
+
 };
 
 const SFX = { correct:'../media/sounds/correct.mp3', wrong:'../media/sounds/wrong.mp3', ding:'../media/sounds/ding.mp3' };
@@ -85,7 +85,7 @@ function init() {
   els.resetBtn1.addEventListener("click", () => {
     resetQuiz();
     startQSet();
-  }); 
+  });
 
   els.resetBtn2.addEventListener("click", () => {
     const confirmed = confirm("Are you sure you want to clear your sticker area?");
@@ -105,7 +105,7 @@ function init() {
   enableDropzone();
   renderStars();
   initStickerModal();
-  
+
   document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     pauseGame();
@@ -163,7 +163,7 @@ function showView(which) {
   els.stickerCard.classList.remove('active');
   if (which === 'quiz') els.quizCard.classList.add('active');
   else els.stickerCard.classList.add('active');
-  
+
   const onSticker = which === 'sticker';
   els.stickerCard.classList.toggle('hidden', !onSticker);
   els.bgSelector.classList.toggle('hidden', !onSticker);
@@ -182,7 +182,7 @@ function showView(which) {
   } else {
     // Resume timer if it was paused
     if (!state.timerId && state.timeLeft > 0) {
-      startTimer(); 
+      startTimer();
     }
   }
 }
@@ -193,7 +193,7 @@ function showView(which) {
 function startQSet() {
   const params = new URLSearchParams(window.location.search);
   state.qsetIndex = parseInt(params.get('qset') || 0, 10);
-  
+
   const order = params.get('order');
   const qset = qsets[state.qsetIndex];
 
@@ -212,11 +212,11 @@ function startQSet() {
 
 function resetQuiz(){
   clearInterval(state.timerId);
-  state.questionIndex=0; 
+  state.questionIndex=0;
   state.timeLeft=30;
-  state.currentAnswer=null; 
+  state.currentAnswer=null;
   state.attemptMade=false;
-  els.feedback.textContent=''; 
+  els.feedback.textContent='';
   showView('quiz');
 }
 
@@ -276,12 +276,12 @@ function startTimer() {
 function handleTimeout(){
   postAnswerToGoogleForm(state.playerName, state.qsetIndex, state.form_q, 'Timeout');
 
-  lockQuestion(); 
+  lockQuestion();
   sfx('wrong', () => {
       setTimeout(() => nextQuestion(), 800); // 1s after sound
   });
 
-  markOption(null); 
+  markOption(null);
   els.feedback.textContent="Time's up!";
   els.feedback.className = 'feedback show wrong';
   setTimeout(() => els.feedback.classList.remove('show'), 800);
@@ -398,14 +398,14 @@ function onOptionClick(e) {
 
 const filledStarSVG = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
-    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2
              9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
           fill="#facc15" stroke="#eab308" stroke-width="1"/>
   </svg>`;
 
 const hollowStarSVG = `
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
-    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 
+    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2
              9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
           fill="none" stroke="#9ca3af" stroke-width="2"/>
   </svg>`;
@@ -438,9 +438,9 @@ function makeQuestionPool(qset) {
 }
 
 
-function awardStickers(count){ 
+function awardStickers(count){
    state.stars += count;
-   renderStars(); 
+   renderStars();
 }
 function sfx(name, callback) {
   sfxAudio.onended = null;   // clear previous listeners
@@ -458,7 +458,7 @@ function initStickerModal() {
   const openBtn = document.getElementById('openStickerModal');
   const closeBtn = document.getElementById('closeStickerModal');
   const deleteBtn = document.getElementById('deleteBtn');
-  
+
   // delete currently selected sticker
   deleteBtn.addEventListener('click', () => {
     if (selectedEl) {
@@ -474,7 +474,7 @@ function initStickerModal() {
   ).join('');
 
   // Open
-  openBtn.addEventListener('click', () => {     
+  openBtn.addEventListener('click', () => {
     if (state.stars <= 0) {
       alert('Earn more stars first!');
       return;
@@ -508,7 +508,7 @@ function initStickerModal() {
 function enableDropzone(){
   els.dropzone.addEventListener('dragover', (e)=>e.preventDefault());
   els.dropzone.addEventListener('drop', (e)=>{ e.preventDefault(); if (state.stars <= 0){return;} const src=e.dataTransfer.getData('text/plain'); if(!src) return;
-    const rect=els.dropzone.getBoundingClientRect(); const x=e.clientX-rect.left-48; const y=e.clientY-rect.top-48; placeDraggable(src,x,y); 
+    const rect=els.dropzone.getBoundingClientRect(); const x=e.clientX-rect.left-48; const y=e.clientY-rect.top-48; placeDraggable(src,x,y);
     if (state.stars > 0) {
       state.stars--;
       renderStars();
@@ -634,7 +634,7 @@ async function postAnswerToGoogleForm(studentId, qset, question, result) {
   formData.append("entry.711248882", question);
   formData.append("entry.531868725", result);
   try {
-    if (studentId !== "Hh") {
+    if (studentId !== "Hh" && studentId !== "hh") {
       await fetch(formUrl, {
         method: "POST",
         body: formData,
