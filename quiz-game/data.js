@@ -133,7 +133,6 @@ const qset2 = {
 // Level 3: Connected letters
 const qset3 = {
   sounds: [
-    // You still need to supply these mp3s (similar pattern as above)
   ],
   soundImages: [
     "../media/arabic-letters/01.png",
@@ -166,34 +165,34 @@ const qset3 = {
     "../media/arabic-letters/28.png"
   ],
   images: [
-      "../media/arabic-letters-connected/01.png",
-    "../media/arabic-letters-connected/02.png",
-    "../media/arabic-letters-connected/03.png",
-    "../media/arabic-letters-connected/04.png",
-    "../media/arabic-letters-connected/05.png",
-    "../media/arabic-letters-connected/06.png",
-    "../media/arabic-letters-connected/07.png",
-    "../media/arabic-letters-connected/08.png",
-    "../media/arabic-letters-connected/09.png",
-    "../media/arabic-letters-connected/10.png",
-    "../media/arabic-letters-connected/11.png",
-    "../media/arabic-letters-connected/12.png",
-    "../media/arabic-letters-connected/13.png",
-    "../media/arabic-letters-connected/14.png",
-    "../media/arabic-letters-connected/15.png",
-    "../media/arabic-letters-connected/16.png",
-    "../media/arabic-letters-connected/17.png",
-    "../media/arabic-letters-connected/18.png",
-    "../media/arabic-letters-connected/19.png",
-    "../media/arabic-letters-connected/20.png",
-    "../media/arabic-letters-connected/21.png",
-    "../media/arabic-letters-connected/22.png",
-    "../media/arabic-letters-connected/23.png",
-    "../media/arabic-letters-connected/24.png",
-    "../media/arabic-letters-connected/25.png",
-    "../media/arabic-letters-connected/26.png",
-    "../media/arabic-letters-connected/27.png",
-    "../media/arabic-letters-connected/28.png"
+      "../media/arabic-letters-connected/01.jpg",
+    "../media/arabic-letters-connected/02.jpg",
+    "../media/arabic-letters-connected/03.jpg",
+    "../media/arabic-letters-connected/04.jpg",
+    "../media/arabic-letters-connected/05.jpg",
+    "../media/arabic-letters-connected/06.jpg",
+    "../media/arabic-letters-connected/07.jpg",
+    "../media/arabic-letters-connected/08.jpg",
+    "../media/arabic-letters-connected/09.jpg",
+    "../media/arabic-letters-connected/10.jpg",
+    "../media/arabic-letters-connected/11.jpg",
+    "../media/arabic-letters-connected/12.jpg",
+    "../media/arabic-letters-connected/13.jpg",
+    "../media/arabic-letters-connected/14.jpg",
+    "../media/arabic-letters-connected/15.jpg",
+    "../media/arabic-letters-connected/16.jpg",
+    "../media/arabic-letters-connected/17.jpg",
+    "../media/arabic-letters-connected/18.jpg",
+    "../media/arabic-letters-connected/19.jpg",
+    "../media/arabic-letters-connected/20.jpg",
+    "../media/arabic-letters-connected/21.jpg",
+    "../media/arabic-letters-connected/22.jpg",
+    "../media/arabic-letters-connected/23.jpg",
+    "../media/arabic-letters-connected/24.jpg",
+    "../media/arabic-letters-connected/25.jpg",
+    "../media/arabic-letters-connected/26.jpg",
+    "../media/arabic-letters-connected/27.jpg",
+    "../media/arabic-letters-connected/28.jpg"
   ],
 };
 
@@ -272,4 +271,38 @@ const qset6 = {
   ]
 };
 
-export const qsets = [qset1, qset2, qset3, qset4, qset5, qset6];
+
+const qset7 = {
+  sounds: [
+    "../media/name-with-word/02.mp3",
+    "../media/name-with-word/05.mp3",
+    "../media/name-with-word/18.mp3",
+    "../media/name-with-word/20.mp3",
+    "../media/name-with-word/21.mp3",
+    "../media/name-with-word/06.mp3",
+    "../media/name-with-word/08.mp3",
+    "../media/name-with-word/14.mp3"
+  ],
+  soundImages: [
+      "../media/letters-pics/02.png",
+    "../media/letters-pics/05.png",
+    "../media/letters-pics/18.png",
+    "../media/letters-pics/20.png",
+    "../media/letters-pics/21.png",
+    "../media/letters-pics/06.png",
+    "../media/letters-pics/08.png",
+    "../media/letters-pics/14.png"
+  ],
+  images: [
+    "../media/arabic-letters/02.png",
+    "../media/arabic-letters/05.png",
+    "../media/arabic-letters/18.png",
+    "../media/arabic-letters/20.png",
+    "../media/arabic-letters/21.png",
+    "../media/arabic-letters/06.png",
+    "../media/arabic-letters/08.png",
+    "../media/arabic-letters/14.png"
+  ]
+};
+
+export const qsets = [qset1, qset2, qset3, qset4, qset5, qset6, qset7];

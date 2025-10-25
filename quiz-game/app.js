@@ -295,7 +295,14 @@ function renderQuestion() {
   state.attemptMade = false;
   state.form_q = correctIdx
 
-  const soundSrc = qset.sounds[correctIdx];
+  let soundSrc = null;
+  if (Array.isArray(qset.sounds) && qset.sounds.length > 0) {
+    soundSrc = qset.sounds[correctIdx] || null;
+    els.playBtn.classList.remove('hidden');
+  } else {
+    els.playBtn.classList.add('hidden');
+  }
+
   els.qAudio.src = soundSrc || '';
 
   if (soundSrc) {
@@ -322,7 +329,7 @@ function renderQuestion() {
   }
 
   // Build options
-  const total = Math.min(qset.images.length, qset.sounds.length);
+  const total = Math.max(qset.images.length, qset.sounds.length);
   const distractors = new Set();
   while (distractors.size < 3 && distractors.size < total - 1) {
     const r = Math.floor(Math.random() * total);
@@ -424,7 +431,7 @@ function nextQuestion(){
 }
 
 function makeQuestionPool(qset) {
-  const total = Math.min(qset.images?.length || 0, qset.sounds?.length || 0);
+  const total = Math.max(qset.images?.length || 0, qset.sounds?.length || 0);
   const all = Array.from({ length: total }, (_, i) => i);
   shuffle(all);
   return all;
@@ -627,11 +634,13 @@ async function postAnswerToGoogleForm(studentId, qset, question, result) {
   formData.append("entry.711248882", question);
   formData.append("entry.531868725", result);
   try {
-    await fetch(formUrl, {
-      method: "POST",
-      body: formData,
-      mode: "no-cors" // Google Forms doesn’t return CORS headers
-    });
+    if (studentId !== "Hh") {
+      await fetch(formUrl, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors" // Google Forms doesn’t return CORS headers
+      });
+    }
   } catch (err) {
     console.error("Failed to send answer", err);
   }
