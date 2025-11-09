@@ -1,4 +1,4 @@
-export const COLLECTION_ITEMS = [
+export const COLLECTION_ITEMS = ['../media/stickers/c42.png',
   '../media/stickers/m02.png','../media/stickers/m03.png','../media/stickers/m04.png','../media/stickers/m05.png',
   '../media/stickers/d01.png','../media/stickers/d02.png','../media/stickers/d03.png','../media/stickers/d04.png','../media/stickers/d05.png','../media/stickers/d06.png','../media/stickers/d07.png','../media/stickers/d08.png','../media/stickers/d09.png','../media/stickers/d10.png','../media/stickers/d11.png',
   '../media/stickers/f01.png','../media/stickers/f02.png','../media/stickers/f03.png','../media/stickers/f04.png','../media/stickers/f05.png','../media/stickers/f06.png','../media/stickers/f07.png','../media/stickers/f08.png','../media/stickers/f09.png','../media/stickers/f10.png','../media/stickers/f11.png','../media/stickers/f12.png','../media/stickers/f13.png','../media/stickers/f14.png','../media/stickers/f15.png','../media/stickers/f16.png','../media/stickers/f17.png','../media/stickers/f18.png',
