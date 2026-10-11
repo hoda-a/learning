@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
   playerInput.focus();
 
   playerBtn.addEventListener('click', () => {
-    const allowedPrefixes = ["saa", "had", "haa", "yah", "meh", "zay", "jul", "ali", "ibr", "hos", "hh", "zar", "zah", "kia", "ely", "bas"];
+    const allowedPrefixes = ["saa", "had", "haa", "yah", "meh", "mah", "zay", "jul", "ali", "kov", "ami", "zai", "ibr", "hos", "q", "zar", "zah", "kia", "ely", "bas"];
     const name = playerInput.value.trim();
     if (!name) {
       return;
@@ -634,7 +634,7 @@ async function postAnswerToGoogleForm(studentId, qset, question, result) {
   formData.append("entry.711248882", question);
   formData.append("entry.531868725", result);
   try {
-    if (studentId !== "Hh" && studentId !== "hh") {
+    if (studentId !== "Q" && studentId !== "q") {
       await fetch(formUrl, {
         method: "POST",
         body: formData,
